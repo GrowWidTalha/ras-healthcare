@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
-import BlogCard from "@/components/BlogCard";
 import Hero from "@/components/sections/Hero";
 import FeaturedProducts from "@/components/sections/FeaturedProducts";
 import WhyUs from "@/components/sections/WhyUs";
