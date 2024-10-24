@@ -1,17 +1,28 @@
 "use client";
+
 import Image from "next/image";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star, Truck, Clock } from "lucide-react";
+import { Star, Truck, Clock, Plus, Minus } from "lucide-react";
 import { Product } from "@/types/appwrite.types";
 import { useCart } from "./providers/CartContext";
 
 export default function ProductDetails({ product }: { product: Product }) {
   const { addToCart, cart } = useCart();
+  const [quantity, setQuantity] = useState(1);
   const productInCart = cart.find((item) => item.$id === product.$id);
 
   const handleAddToCart = () => {
-    addToCart(product, 1);
+    addToCart(product, quantity);
+  };
+
+  const incrementQuantity = () => {
+    setQuantity((prev) => Math.min(prev + 1, 10)); // Limit to 10 items
+  };
+
+  const decrementQuantity = () => {
+    setQuantity((prev) => Math.max(prev - 1, 1)); // Minimum 1 item
   };
 
   return (
@@ -35,7 +46,7 @@ export default function ProductDetails({ product }: { product: Product }) {
               >
                 <Image
                   src={img}
-                  alt={`CeraVe product thumbnail ${i + 1}`}
+                  alt={`${product.name} thumbnail ${i + 1}`}
                   layout="fill"
                   objectFit="cover"
                   className="w-full h-full"
@@ -60,11 +71,31 @@ export default function ProductDetails({ product }: { product: Product }) {
           </div>
           <div className="flex items-baseline space-x-2">
             <span className="text-2xl font-bold">Rs. {product.price}</span>
-            {/* <span className="text-lg text-gray-500 line-through">$18.55</span> */}
           </div>
-          <div>
-          </div>
-          <div className="flex space-x-4">
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center border rounded-md">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={decrementQuantity}
+                disabled={quantity === 1}
+                aria-label="Decrease quantity"
+              >
+                <Minus className="h-4 w-4" />
+              </Button>
+              <span className="px-4 py-2 text-center min-w-[3rem]">
+                {quantity}
+              </span>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={incrementQuantity}
+                disabled={quantity === 10}
+                aria-label="Increase quantity"
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
             {Number(product.quantity) === 0 ? (
               <Button className="flex-1" disabled>
                 Out of Stock
@@ -77,7 +108,9 @@ export default function ProductDetails({ product }: { product: Product }) {
                 </span>
               </Button>
             ) : (
-              <Button className="flex-1" onClick={handleAddToCart}>Add to Cart</Button>
+              <Button className="flex-1" onClick={handleAddToCart}>
+                Add to Cart
+              </Button>
             )}
           </div>
           <Card>
@@ -102,7 +135,10 @@ export default function ProductDetails({ product }: { product: Product }) {
               </div>
               <div className="prose max-w-none">
                 <h3>Product Description</h3>
-                <div className="prose" dangerouslySetInnerHTML={{ __html: product.description }} />
+                <div
+                  className="prose"
+                  dangerouslySetInnerHTML={{ __html: product.description }}
+                />
               </div>
             </CardContent>
           </Card>

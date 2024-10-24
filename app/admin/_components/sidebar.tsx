@@ -19,12 +19,12 @@ import {
 } from 'lucide-react'
 
 const sidebarItems = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Orders', href: '/orders', icon: ShoppingBag },
-  { name: 'Customers', href: '/customers', icon: Users },
-  { name: 'Products', href: '/admin/products', icon: PackageOpen },
-  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-  { name: 'Settings', href: '/settings', icon: Settings },
+  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, disabled: false },
+  { name: 'Orders', href: '/orders', icon: ShoppingBag, disabled: false },
+  { name: 'Products', href: '/admin/products', icon: PackageOpen, disabled: false },
+  { name: 'Customers', href: '/customers', icon: Users, disabled: true },
+  { name: 'Analytics', href: '/analytics', icon: BarChart3, disabled: true},
+  { name: 'Settings', href: '/settings', icon: Settings , disabled:true},
 ]
 
 export function Sidebar() {
@@ -67,8 +67,11 @@ function SidebarContent({ pathname, setIsOpen }: { pathname: string, setIsOpen: 
                   onClick={() => setIsOpen(false)}
                 >
                   <span
+                  variant={"ghost"}
                     className={cn(
-                      "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-blue-50 hover:text-blue-800 transition-colors",
+                      "group flex items-center rounded-md px-3 py-2 text-sm font-medium ",
+                      !item.disabled && "hover:bg-blue-50 hover:text-blue-800 transition-colors",
+                      item.disabled && "cursor-not-allowed opacity-80",
                       pathname.includes(item.href) ? "bg-blue-100 text-blue-800" : "text-gray-600",
                     )}
                   >
@@ -81,8 +84,8 @@ function SidebarContent({ pathname, setIsOpen }: { pathname: string, setIsOpen: 
           </ScrollArea>
         </div>
       </div>
-      <div className="mt-auto p-4">
-        <Button variant="outline" className="w-full text-blue-600 hover:text-blue-800 border-blue-200 hover:bg-blue-50" onClick={() => setIsOpen(false)}>
+      <div className="mt-auto p-4 mb-5">
+        <Button variant="outline" className="w-full text-blue-600 hover:text-blue-800 border-blue-200 hover:bg-blue-50 " onClick={() => setIsOpen(false)}>
           <LogOut className="mr-2 h-4 w-4" />
           Log out
         </Button>

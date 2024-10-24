@@ -5,14 +5,13 @@ import React, { useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
-import { Heart, Menu, Search, ShoppingCart, User, X } from "lucide-react";
+import { Menu, Search, ShoppingCart, X } from "lucide-react";
 import Link from "next/link";
 import { useCart } from "./providers/CartContext";
 
 const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const {cart} = useCart()
-
+  const { cart } = useCart();
   return (
     <header className="bg-white shadow-sm">
       <div className="container mx-auto px-4 py-4">
@@ -30,14 +29,23 @@ const Navbar = () => {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[300px] sm:w-[400px]">
-                <nav className="flex flex-col gap-4">
-                  <Link
-                    href="#"
-                    className="flex items-center gap-2 text-gray-600 hover:text-blue-600"
-                  >
-                    <User size={24} />
-                    <span>Account</span>
-                  </Link>
+                <nav className="flex flex-col gap-6 mt-4">
+                  {[
+                    { name: "Home", href: "/" },
+                    { name: "Products", href: "/products" },
+                    { name: "Blog", href: "/blog" },
+                    { name: "Contact Us", href: "/contact" },
+                    { name: "Privacy Policy", href: "/privacy" },
+                    { name: "About us", href: "/about" },
+                  ].map(({ name, href }) => (
+                    <Link
+                      key={href}
+                      href={href}
+                      className="text-gray-600 hover:text-blue-600 text-lg font-medium"
+                    >
+                      {name}
+                    </Link>
+                  ))}
                   <Link
                     href="/cart"
                     className="flex items-center gap-2 text-gray-600 hover:text-blue-600"
@@ -55,12 +63,14 @@ const Navbar = () => {
                 </nav>
               </SheetContent>
             </Sheet>
-            <Image
-              src="/ras-logo.png"
-              alt="RAS Health Care Logo"
-              width={120}
-              height={40}
-            />
+            <Link href="/">
+              <Image
+                src="/ras-logo.png"
+                alt="RAS Health Care Logo"
+                width={120}
+                height={40}
+              />
+            </Link>
           </div>
           <div className="hidden md:block flex-1 max-w-xl mx-4">
             <div className="relative">
@@ -91,18 +101,6 @@ const Navbar = () => {
                 {isSearchOpen ? "Close search" : "Open search"}
               </span>
             </Button>
-            <Link
-              href="#"
-              className="hidden md:inline-block text-gray-600 hover:text-blue-600"
-            >
-              <User size={24} />
-            </Link>
-            <Link
-              href="#"
-              className="hidden md:inline-block text-gray-600 hover:text-blue-600"
-            >
-              <Heart size={24} />
-            </Link>
             <Link href="/cart" className="text-gray-600 hover:text-blue-600">
               <div className="relative">
                 <ShoppingCart size={24} />

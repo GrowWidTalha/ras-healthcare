@@ -3,18 +3,21 @@ import React from "react";
 import { Button } from "./ui/button";
 import { useCart } from "./providers/CartContext";
 import { Product } from "@/types/appwrite.types";
+import Link from "next/link";
 
 const AddtoCartButton = ({ product }: { product: Product }) => {
-  const { addToCart, removeFromCart, cart } = useCart();
+  const { addToCart, cart } = useCart();
   const isInCart = cart.some((item) => item.$id === product.$id);
   return (
-    <Button
-      onClick={() =>
-        isInCart ? removeFromCart(product.$id) : addToCart(product, 1)
-      }
-    >
-      {isInCart ? "Remove from Cart" : "Add to Cart"}
-    </Button>
+    <>
+      {isInCart ? (
+        <Button asChild variant={"outline"}>
+          <Link href={"/cart"}>Visit Cart</Link>
+        </Button>
+      ) : (
+        <Button onClick={() => addToCart(product, 1)}>Add to Cart</Button>
+      )}
+    </>
   );
 };
 
