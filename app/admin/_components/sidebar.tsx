@@ -19,8 +19,8 @@ import {
 } from 'lucide-react'
 
 const sidebarItems = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard, disabled: false },
-  { name: 'Orders', href: '/orders', icon: ShoppingBag, disabled: false },
+  { name: 'Dashboard', href: '/admin', icon: LayoutDashboard, disabled: false },
+  { name: 'Orders', href: '/orders', icon: ShoppingBag, disabled: true },
   { name: 'Products', href: '/admin/products', icon: PackageOpen, disabled: false },
   { name: 'Customers', href: '/customers', icon: Users, disabled: true },
   { name: 'Analytics', href: '/analytics', icon: BarChart3, disabled: true},
