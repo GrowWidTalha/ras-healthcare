@@ -2,11 +2,9 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Star, Minus, Plus, Truck, Clock } from "lucide-react";
+import { Star, Truck, Clock } from "lucide-react";
 import { Product } from "@/types/appwrite.types";
 import { useCart } from "./providers/CartContext";
-import { useEffect, useState } from "react";
 
 export default function ProductDetails({ product }: { product: Product }) {
   const { addToCart, cart } = useCart();

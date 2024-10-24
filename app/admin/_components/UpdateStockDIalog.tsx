@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -23,7 +22,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { updateStock } from "../_actions/product";
 import { useState } from "react";
-import SubmitBtn from "@/components/SubmitBtn";
 import SubmitButton from "@/components/SubmitBtn";
 const UpdateStockSchema = z.object({
   stock: z.string(),

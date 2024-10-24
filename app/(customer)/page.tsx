@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer";
 import Hero from "@/components/sections/Hero";
 import FeaturedProducts from "@/components/sections/FeaturedProducts";
 import WhyUs from "@/components/sections/WhyUs";

@@ -63,6 +63,7 @@ const AddProductForm = ({
           images: values.images,
           quantity: values.quantity,
         };
+        // @ts-ignore
         await updateProduct(product?.$id!, productData);
         router.push("/admin/products");
       } else {
