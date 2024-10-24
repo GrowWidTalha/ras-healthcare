@@ -163,7 +163,8 @@ export default function CartPage() {
 
   const calculateTotal = () => {
     return cart.reduce(
-      (total, item) => total + (parseFloat(item.price) || 0) * item.quantity,
+      (total, item) =>
+        total + (parseFloat(item.price) || 0) * Number(item.quantity),
       0
     );
   };

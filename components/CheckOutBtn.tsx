@@ -101,7 +101,7 @@ const CheckOutForm = () => {
 
   const calculateTotal = () => {
     return cart.reduce(
-      (total, item) => total + Number(item.price) * item.quantity,
+      (total, item) => total + Number(item.price) * Number(item.quantity),
       0
     );
   };
