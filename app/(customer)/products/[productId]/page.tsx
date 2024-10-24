@@ -5,7 +5,7 @@ import React from "react";
 const ProductDetailsPage = async ({
   params,
 }: {
-  params: { productId: string };
+  params: any;
 }) => {
     const { productId } = await params;
   const product = await getProductById(productId);
