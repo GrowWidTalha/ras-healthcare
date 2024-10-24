@@ -7,7 +7,8 @@ const ProductDetailsPage = async ({
 }: {
   params: { productId: string };
 }) => {
-  const product = await getProductById(params.productId);
+    const { productId } = await params;
+  const product = await getProductById(productId);
   return (
     <div className="container mx-auto">
       <ProductDetails product={product} />
