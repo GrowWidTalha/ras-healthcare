@@ -8,7 +8,7 @@ import Link from "next/link";
 const OrderConfirmation = async ({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: any;
 }) => {
   const { orderId } = await searchParams;
   const order = await getOrderById(String(orderId));
