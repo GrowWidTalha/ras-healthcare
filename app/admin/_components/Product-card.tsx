@@ -5,15 +5,10 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import Link from "next/link";
 import { UpdateStockDialog } from "./UpdateStockDIalog";
 import { DeleteConfirmationDialog } from "@/components/DeleteConfirmationDialog";
+import { Product } from "@/types/appwrite.types";
 
 interface ProductCardProps {
-  product: {
-    $id: string;
-    name: string;
-    price: number;
-    quantity: number | string;
-    images: string[];
-  };
+  product:Product
 }
 
 export function ProductCard({ product }: ProductCardProps) {
