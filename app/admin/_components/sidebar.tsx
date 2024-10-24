@@ -67,7 +67,6 @@ function SidebarContent({ pathname, setIsOpen }: { pathname: string, setIsOpen: 
                   onClick={() => setIsOpen(false)}
                 >
                   <span
-                  variant={"ghost"}
                     className={cn(
                       "group flex items-center rounded-md px-3 py-2 text-sm font-medium ",
                       !item.disabled && "hover:bg-blue-50 hover:text-blue-800 transition-colors",
