@@ -74,6 +74,7 @@ const AddProductForm = ({
           images: values.images,
           quantity: values.quantity,
         };
+        // @ts-ignore
         await createProduct(productData);
         router.push("/admin/products");
       }
