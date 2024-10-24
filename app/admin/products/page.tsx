@@ -21,7 +21,7 @@ export default function ProductsPage() {
   if (error) return <p>Error fetching products: {error.message}</p>;
   console.log(data);
   const filteredProducts =
-    data?.documents?.filter((product) =>
+    data?.documents?.filter((product: Product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
     ) || [];
 
