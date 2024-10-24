@@ -29,6 +29,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="absolute top-2 right-2">
           <UpdateStockDialog
             productId={product.$id}
+            // @ts-ignore
             quantity={product.quantity}
           >
             <Button
