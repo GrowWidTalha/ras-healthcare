@@ -12,6 +12,7 @@ const OrderConfirmation = async ({
 }) => {
   const { orderId } = await searchParams;
   const order = await getOrderById(String(orderId));
+  console.log(order)
   const orderItems = JSON.parse(order.order_items);
   const subtotal = orderItems.reduce(
     (sum: number, item: any) => sum + Number(item.totalPrice),

@@ -1,146 +1,198 @@
 "use client";
-
-import Image from "next/image";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Star, Truck, Clock, Plus, Minus } from "lucide-react";
-import { Product } from "@/types/appwrite.types";
+import { Card } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Star, Plus, Minus } from "lucide-react";
+import Image from "next/image";
 import { useCart } from "./providers/CartContext";
+import { Product } from "@/types/appwrite.types";
 
-export default function ProductDetails({ product }: { product: Product }) {
-  const { addToCart, cart } = useCart();
+interface ProductDetailProps {
+  product: Product;
+}
+
+export default function ProductDetail({ product }: ProductDetailProps) {
+  const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  const productInCart = cart.find((item) => item.$id === product.$id);
+  const { addToCart, cart } = useCart();
+
+  const incrementQuantity = () => {
+    setQuantity((prev) => Math.min(prev + 1, 10));
+  };
+
+  const decrementQuantity = () => {
+    setQuantity((prev) => Math.max(prev - 1, 1));
+  };
 
   const handleAddToCart = () => {
     addToCart(product, quantity);
   };
 
-  const incrementQuantity = () => {
-    setQuantity((prev) => Math.min(prev + 1, 10)); // Limit to 10 items
-  };
-
-  const decrementQuantity = () => {
-    setQuantity((prev) => Math.max(prev - 1, 1)); // Minimum 1 item
-  };
+  const existingCartItem = cart.find((item) => item.$id === product.$id);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid md:grid-cols-2 gap-8">
-        <div className="space-y-4">
-          <div className="aspect-square relative overflow-hidden rounded-lg">
-            <Image
-              src={product.images[0]}
-              alt={product.name}
-              layout="fill"
-              objectFit="cover"
-              className="w-full h-full"
-            />
-          </div>
-          <div className="grid grid-cols-4 gap-2">
-            {product.images.map((img, i) => (
-              <div
-                key={i}
-                className="aspect-square relative overflow-hidden rounded-lg"
+    <div className="container mx-auto px-4 py-8 max-w-[1200px]">
+      <div className="grid lg:grid-cols-[120px,1fr] gap-8">
+        {/* Main Content Grid */}
+        <div className="order-2 lg:order-1">
+          {/* Left Column - Thumbnail Images */}
+          <div className="flex lg:flex-col gap-4 overflow-x-auto lg:overflow-x-visible">
+            {product.images.map((image, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedImage(index)}
+                className={`flex-shrink-0 w-[80px] h-[80px] rounded-lg overflow-hidden border ${
+                  selectedImage === index
+                    ? "border-blue-500"
+                    : "border-gray-200"
+                } hover:border-blue-500 transition-colors`}
               >
                 <Image
-                  src={img}
-                  alt={`${product.name} thumbnail ${i + 1}`}
-                  layout="fill"
-                  objectFit="cover"
-                  className="w-full h-full"
+                  src={image}
+                  alt={`${product.name} thumbnail ${index + 1}`}
+                  width={80}
+                  height={80}
+                  className="w-full h-full object-cover"
                 />
-              </div>
+              </button>
             ))}
           </div>
         </div>
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-sm text-gray-500 uppercase">Ras Healthcare</h2>
-            <h1 className="text-3xl font-bold">{product.name}</h1>
-            <div className="flex items-center mt-2">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                />
-              ))}
-              <span className="ml-2 text-sm text-gray-500">(12)</span>
+
+        {/* Center Column - Main Image and Details */}
+        <div className="order-1 lg:order-2 space-y-8">
+          <div className="grid lg:grid-cols-[1fr,400px] gap-8">
+            {/* Main Image */}
+            <div className="relative aspect-square bg-white rounded-lg overflow-hidden">
+              <Image
+                src={product.images[selectedImage]}
+                alt={product.name}
+                width={400}
+                height={400}
+                className="w-full h-full object-contain p-4"
+              />
+            </div>
+
+            {/* Product Info */}
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-4xl font-bold text-gray-900">
+                  {product.name}
+                </h1>
+                <div className="flex items-center mt-4">
+                  <div className="flex gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className="w-5 h-5 fill-yellow-400 text-yellow-400"
+                      />
+                    ))}
+                  </div>
+                  <span className="text-sm text-gray-500 ml-2">(1 review)</span>
+                </div>
+              </div>
+
+              <p className="text-gray-600 leading-relaxed">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor ut et dolore magna aliqua.
+              </p>
+
+              <div className="text-3xl font-bold text-blue-600">
+                Rs. {Number(product.price).toFixed(2)}
+              </div>
+
+              <div className="flex items-center gap-4">
+                {existingCartItem ? (
+                  <>
+                    <div className="flex items-center border rounded-full overflow-hidden bg-gray-50">
+                      <span className="w-24 text-center">
+                        In Cart: {existingCartItem.quantity}
+                      </span>
+                    </div>
+                    <Button
+                      className="flex-1 rounded-full bg-green-600 hover:bg-green-700"
+                      onClick={() => (window.location.href = "/cart")}
+                    >
+                      View Cart
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center border rounded-full overflow-hidden bg-gray-50">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={decrementQuantity}
+                        disabled={quantity === 1}
+                        className="rounded-none"
+                      >
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="w-12 text-center">{quantity}</span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={incrementQuantity}
+                        disabled={quantity === 10}
+                        className="rounded-none"
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    <Button
+                      className="flex-1 rounded-full bg-blue-600 hover:bg-blue-700"
+                      onClick={handleAddToCart}
+                    >
+                      Add to Cart
+                    </Button>
+                  </>
+                )}
+              </div>
+
+              <div className="space-y-2 pt-4">
+                <div className="flex gap-2 text-sm">
+                  <span className="text-gray-500">Category:</span>
+                  <span className="text-gray-700">{product.category}</span>
+                </div>
+                <div className="flex gap-2 text-sm">
+                  <span className="text-gray-500">Product ID:</span>
+                  <span className="text-gray-700">{product.$id}</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="flex items-baseline space-x-2">
-            <span className="text-2xl font-bold">Rs. {product.price}</span>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center border rounded-md">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={decrementQuantity}
-                disabled={quantity === 1}
-                aria-label="Decrease quantity"
-              >
-                <Minus className="h-4 w-4" />
-              </Button>
-              <span className="px-4 py-2 text-center min-w-[3rem]">
-                {quantity}
-              </span>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={incrementQuantity}
-                disabled={quantity === 10}
-                aria-label="Increase quantity"
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            {Number(product.quantity) === 0 ? (
-              <Button className="flex-1" disabled>
-                Out of Stock
-              </Button>
-            ) : productInCart ? (
-              <Button className="flex-1" disabled>
-                <span className="flex items-center space-x-2">
-                  <Clock className="h-4 w-4" />
-                  <span>In Cart</span>
-                </span>
-              </Button>
-            ) : (
-              <Button className="flex-1" onClick={handleAddToCart}>
-                Add to Cart
-              </Button>
-            )}
-          </div>
-          <Card>
-            <CardContent className="p-4 space-y-2">
-              <div className="flex items-center space-x-2">
-                <Truck className="h-4 w-4 text-blue-500" />
-                <p className="text-sm">
-                  100% secure delivery{" "}
-                  <a href="#" className="text-blue-500 hover:underline">
-                    Details
-                  </a>
-                </p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Clock className="h-4 w-4 text-blue-500" />
-                <p className="text-sm">
-                  Delivers in: 3-7 Working Days.{" "}
-                  <a href="#" className="text-blue-500 hover:underline">
-                    Learn More
-                  </a>
-                </p>
-              </div>
-              <div className="prose max-w-none">
-                <h3>Product Description</h3>
-                <div
-                  className="prose"
-                  dangerouslySetInnerHTML={{ __html: product.description }}
-                />
-              </div>
-            </CardContent>
+
+          {/* Tabs Section */}
+          <Card className="mt-8 border-none shadow-none">
+            <Tabs defaultValue="description" className="w-full">
+              <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 space-x-8 bg-white">
+                <TabsTrigger
+                  value="description"
+                  className="rounded-none border-b-2 border-transparent data-[state=active]:border-blue-600 px-0"
+                >
+                  DESCRIPTION
+                </TabsTrigger>
+                <TabsTrigger
+                  value="reviews"
+                  className="rounded-none border-b-2 border-transparent data-[state=active]:border-blue-600 px-0"
+                >
+                  REVIEWS (1)
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="description" className="pt-8">
+                <div className="prose max-w-none text-gray-600">
+                  <div
+                    dangerouslySetInnerHTML={{ __html: product.description }}
+                  />
+                </div>
+              </TabsContent>
+              <TabsContent value="reviews" className="pt-8">
+                <div className="prose max-w-none text-gray-600">
+                  <p>Customer reviews will be displayed here.</p>
+                </div>
+              </TabsContent>
+            </Tabs>
           </Card>
         </div>
       </div>

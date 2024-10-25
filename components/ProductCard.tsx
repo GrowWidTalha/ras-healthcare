@@ -1,39 +1,83 @@
-import Image from "next/image";
-import React from "react";
+"use client";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { Card } from "@/components/ui/card";
 import { Product } from "@/types/appwrite.types";
+import Image from "next/image";
 import AddtoCartButton from "./AddtoCartButton";
 import Link from "next/link";
 
-const ProductCard = ({ product }: { product: Product }) => {
+export default function ProductCard({ product }: { product: Product }) {
+  const { name, price, images } = product;
+  const cardRef = useRef<HTMLDivElement>(null);
+  const priceRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    const priceElement = priceRef.current;
+    const buttonElement = buttonRef.current;
+
+    if (!card || !priceElement || !buttonElement) return;
+
+    const timeline = gsap.timeline({ paused: true });
+
+    timeline
+      .to(priceElement, {
+        yPercent: -100,
+        duration: 0.3,
+        ease: "power2.inOut",
+      })
+      .to(
+        buttonElement,
+        {
+          yPercent: -100,
+          duration: 0.3,
+          ease: "power2.inOut",
+        },
+        "-=0.3"
+      );
+
+    card.addEventListener("mouseenter", () => timeline.play());
+    card.addEventListener("mouseleave", () => timeline.reverse());
+
+    return () => {
+      timeline.kill();
+    };
+  }, []);
+
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <Link href={`/products/${product.$id}`}>
-        <Image
-          src={product.images[0]}
-          alt={`Product`}
-          width={300}
-          height={200}
-          className="w-full"
-        />
+    <Card
+      ref={cardRef}
+      className="group relative w-[300px] overflow-hidden rounded-xl bg-white p-6 shadow-lg transition-all duration-300 hover:shadow-xl"
+    >
+      <Link href={`/products/${product.name}/${product.$id}`} >
+        <div className="aspect-square overflow-hidden rounded-lg bg-white p-4">
+          <Image
+            src={images[0]}
+            alt={name}
+            width={300}
+            height={300}
+            className=" w-full object-contain transition-transform duration-300 group-hover:scale-105"
+          />
+        </div>
       </Link>
-
-      <div className="p-4">
-        <Link href={`/products/${product.$id}`}>
-          <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
-          <p className="text-gray-600 mb-4">
-            Boost your immune system and overall health.
-          </p>
-        </Link>
-
-        <div className="flex justify-between items-center">
-          <span className="text-2xl font-bold text-blue-600">
-            Rs. {product.price}
-          </span>
-          <AddtoCartButton product={product} />
+      <div className="mt-4 space-y-2">
+        <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
+        <div className="relative h-10 overflow-hidden">
+          <div ref={priceRef} className="absolute w-full">
+            <p className="text-xl font-bold text-gray-900">
+              Rs. {Number(price).toFixed(2)}
+            </p>
+          </div>
+          <div
+            ref={buttonRef}
+            className="absolute top-full w-full transform transition-transform"
+          >
+            <AddtoCartButton product={product} />
+          </div>
         </div>
       </div>
-    </div>
+    </Card>
   );
-};
-
-export default ProductCard;
+}

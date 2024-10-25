@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { useCart } from "./providers/CartContext";
 import { Product } from "@/types/appwrite.types";
 import Link from "next/link";
+import { ShoppingCart } from "lucide-react";
 
 const AddtoCartButton = ({ product }: { product: Product }) => {
   const { addToCart, cart } = useCart();
@@ -11,11 +12,18 @@ const AddtoCartButton = ({ product }: { product: Product }) => {
   return (
     <>
       {isInCart ? (
-        <Button asChild variant={"outline"}>
+        <Button className="w-full" asChild variant={"outline"}>
           <Link href={"/cart"}>Visit Cart</Link>
         </Button>
       ) : (
-        <Button onClick={() => addToCart(product, 1)}>Add to Cart</Button>
+        <Button
+          onClick={() => addToCart(product, 1)}
+          className="w-full gap-2"
+          variant={"outline"}
+        >
+          <ShoppingCart className="h-4 w-4" />
+          Add to Cart
+        </Button>
       )}
     </>
   );

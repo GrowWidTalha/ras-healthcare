@@ -15,13 +15,15 @@ import {
   Settings,
   BarChart3,
   LogOut,
-  Menu
+  Menu,
+  BookA
 } from 'lucide-react'
 
 const sidebarItems = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard, disabled: false },
-  { name: 'Orders', href: '/orders', icon: ShoppingBag, disabled: true },
+  { name: 'Orders', href: '/admin/orders', icon: ShoppingBag, disabled: false },
   { name: 'Products', href: '/admin/products', icon: PackageOpen, disabled: false },
+  { name: 'Blog', href: '/admin/blog', icon: BookA, disabled: false },
   { name: 'Customers', href: '/customers', icon: Users, disabled: true },
   { name: 'Analytics', href: '/analytics', icon: BarChart3, disabled: true},
   { name: 'Settings', href: '/settings', icon: Settings , disabled:true},

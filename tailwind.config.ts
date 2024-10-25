@@ -51,6 +51,15 @@ const config: Config = {
   				'5': 'hsl(var(--chart-5))'
   			}
   		},
+          keyframes: {
+            "shine": {
+              from: { backgroundPosition: '200% 0' },
+              to: { backgroundPosition: '-200% 0' },
+            },
+          },
+          animation: {
+            "shine": "shine 8s ease-in-out infinite",
+          },
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

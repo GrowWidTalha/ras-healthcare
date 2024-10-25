@@ -51,7 +51,7 @@ export default function SupplementServices() {
             </div>
           </div>
           <Button variant="secondary" asChild className="w-full">
-            <Link href={"/contact-us"}>Ask Now</Link>
+            <Link href={"/contact"}>Ask Now</Link>
           </Button>
         </CardContent>
       </Card>

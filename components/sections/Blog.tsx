@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 const Blog = () => {
   return (
-    <section className="py-16">
+    <section className="py-16 hero">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-10">
           Latest from Our Blog

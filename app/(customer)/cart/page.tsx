@@ -31,7 +31,7 @@ const CartItem = ({ item, updateQuantity, removeFromCart }: CartItemProps) => {
     <Card>
       <div className="flex items-center p-4 gap-4">
         {/* Image container */}
-        <Link href={`/products/${item.$id}`}>
+        <Link href={`/products/${item.name}/${item.$id}`}>
           <div className="relative flex-shrink-0 w-24 h-24">
             <Image
               src={item.images[0]}
