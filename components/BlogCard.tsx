@@ -7,28 +7,31 @@ import Link from "next/link";
 
 const BlogCard = ({ blog, type }: { blog: Blog; type: "admin" | "user" }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <Image
-        src={blog.coverImage}
-        alt={`Blog post`}
-        width={300}
-        height={100}
-        className="w-full aspect-video object-cover"
-      />
-      <div className="p-4">
-        <h3 className="font-semibold text-lg mb-2">{blog.title}</h3>
-        <p className="text-gray-600 mb-4">
+    <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+      <div className="relative group">
+        <Image
+          src={blog.coverImage}
+          alt={`Blog post`}
+          width={300}
+          height={100}
+          className="w-full aspect-video object-cover group-hover:scale-110 transition-transform duration-500"
+        />
+        <div className="absolute inset-0  opacity-0 group-hover:opacity-100 transition-opacity duration-500"/>
+      </div>
+      <div className="p-8">
+        <h3 className="font-bold text-2xl mb-4 text-gray-800 hover:text-blue-600 transition-colors duration-300">{blog.title}</h3>
+        <p className="text-gray-600 mb-6 line-clamp-2 text-lg">
           Learn about the crucial role Vitamin D plays in maintaining your
           overall health and well-being.
         </p>
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           {type === "user" && (
             <Button
               asChild
               variant="expandIcon"
               Icon={ArrowRight}
               iconPlacement="right"
-              className="flex items-center"
+              className="flex items-center hover:scale-110 transition-transform duration-300 text-lg px-6 py-3"
             >
               <Link href={`/blog//${blog.slug}/${blog.$id}`} className="flex items-center">
                 Read More
@@ -38,16 +41,16 @@ const BlogCard = ({ blog, type }: { blog: Blog; type: "admin" | "user" }) => {
 
           {type === "admin" && (
             <>
-              <Button variant="outline" asChild className="flex items-center">
+              <Button variant="outline" asChild className="flex items-center hover:bg-gray-100 transition-all duration-300 hover:scale-105 text-lg px-6 py-3">
                 <Link
                   href={`/admin/blog/${blog.$id}`}
                   className="flex items-center"
                 >
-                  Edit <Pencil className="ml-2 h-4 w-4" />
+                  Edit <Pencil className="ml-3 h-5 w-5" />
                 </Link>
               </Button>
-              <Button variant="destructive" className="flex items-center">
-                Delete <Trash className="ml-2 h-4 w-4" />
+              <Button variant="destructive" className="flex items-center hover:bg-red-700 transition-all duration-300 hover:scale-105 text-lg px-6 py-3">
+                Delete <Trash className="ml-3 h-5 w-5" />
               </Button>
             </>
           )}

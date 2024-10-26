@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart,  Menu, X } from "lucide-react";
+import { ShoppingCart, Menu, X } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useCart } from "./providers/CartContext";
 import Image from "next/image";
@@ -19,10 +19,10 @@ const Navbar = () => {
           <div className="flex-shrink-0 flex items-center">
             <Link href="/">
               <Image
-                src={"/ras-logo.png"}
+                src={"/ras-logo.svg"}
                 alt="ras logo"
-                height={40}
-                width={160}
+                height={30}
+                width={150}
                 className="object-contain"
               />
             </Link>
@@ -38,14 +38,15 @@ const Navbar = () => {
                   Home
                 </Button>
               </Link>
-              <Link href="/products">
+              <Link href="/about">
                 <Button
                   variant="linkHover2"
                   className="px-3 py-2 text-sm font-medium"
                 >
-                  Products
+                  About
                 </Button>
               </Link>
+
               <Link href="/blog">
                 <Button
                   variant="linkHover2"
@@ -54,12 +55,12 @@ const Navbar = () => {
                   Blog
                 </Button>
               </Link>
-              <Link href="/about">
+              <Link href="/products">
                 <Button
                   variant="linkHover2"
                   className="px-3 py-2 text-sm font-medium"
                 >
-                  About
+                  Products
                 </Button>
               </Link>
               <Link href="/contact">
@@ -78,10 +79,10 @@ const Navbar = () => {
             <div className="ml-4 flex items-center md:ml-6">
               <Button variant="ghost" asChild size="icon" className="relative">
                 <Link href="/cart">
-                <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-2 -right-2 flex items-center justify-center h-5 w-5 rounded-full bg-blue-500 text-white text-xs">
-                  {cart?.length || 0}
-                </span>
+                  <ShoppingCart className="h-5 w-5" />
+                  <span className="absolute -top-2 -right-2 flex items-center justify-center h-5 w-5 rounded-full bg-blue-500 text-white text-xs">
+                    {cart?.length || 0}
+                  </span>
                 </Link>
               </Button>
             </div>

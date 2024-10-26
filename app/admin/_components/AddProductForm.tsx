@@ -6,8 +6,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Editor } from "@/components/Editor";
 import { ImageUpload } from "@/components/Image-upload";
 import { Button } from "@/components/ui/button";
-import { Save } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { Save, Plus, X } from "lucide-react";
+import { useForm, useFieldArray } from "react-hook-form";
 import {
   Form,
   FormControl,
@@ -30,6 +30,7 @@ const formSchema = z.object({
     .union([z.array(z.instanceof(File)), z.array(z.string())])
     .optional(),
   quantity: z.string().min(1, "Quantity is required"),
+  benefits: z.array(z.object({ value: z.string() })),
 });
 
 const AddProductForm = ({
@@ -49,7 +50,14 @@ const AddProductForm = ({
       description: product ? product?.description : "",
       images: product ? product?.images : [],
       quantity: product ? product?.stock : "",
+    //   @ts-ignore
+      benefits: product?.benefits ? product.benefits.map(b => ({ value: b })) : [{ value: "" }],
     },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    name: "benefits",
+    control: form.control,
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
@@ -62,6 +70,7 @@ const AddProductForm = ({
           description: values.description,
           images: values.images,
           quantity: values.quantity,
+          benefits: values.benefits.map(b => b.value),
         };
         // @ts-ignore
         await updateProduct(product?.$id, productData);
@@ -73,6 +82,7 @@ const AddProductForm = ({
           description: values.description,
           images: values.images,
           quantity: values.quantity,
+          benefits: values.benefits.map(b => b.value),
         };
         // @ts-ignore
         await createProduct(productData);
@@ -171,6 +181,53 @@ const AddProductForm = ({
                   </FormItem>
                 )}
               />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardContent className="p-6">
+              <FormLabel>Product Benefits</FormLabel>
+              <div className="space-y-4">
+                {fields.map((field, index) => (
+                  <div key={field.id} className="flex items-center gap-2">
+                    <FormField
+                      control={form.control}
+                      name={`benefits.${index}.value`}
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormControl>
+                            <Input
+                              {...field}
+                              placeholder="Enter product benefit"
+                              className="border-blue-200 focus:border-blue-400 focus:ring-blue-400"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      onClick={() => remove(index)}
+                      className="flex-shrink-0"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => append({ value: "" })}
+                  className="mt-2"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Benefit
+                </Button>
+              </div>
             </CardContent>
           </Card>
 

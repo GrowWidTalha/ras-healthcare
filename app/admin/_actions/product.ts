@@ -26,6 +26,7 @@ export const createProduct = async (ProductData: CreateProductParams) => {
         price: ProductData.price,
         images: images,
         stock: `${ProductData.quantity}`,
+        benefits: ProductData.benefits,
       }
     );
     revalidatePath("/admin/products");
@@ -83,6 +84,7 @@ export const updateProduct = async (
         price: productData.price,
         images: images,
         stock: `${productData.quantity}`,
+        benefits: productData.benefits.map((b) => b),
       }
     );
     revalidatePath("/admin/products");

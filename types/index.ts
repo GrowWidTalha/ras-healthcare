@@ -4,6 +4,7 @@ export interface CreateProductParams {
   description: string;
   images: string[];
   quantity: number;
+  benefits: string[];
 }
 export interface CreateOrderProps {
   customer_name: string;
