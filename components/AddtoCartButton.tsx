@@ -6,20 +6,21 @@ import { Product } from "@/types/appwrite.types";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 
-const AddtoCartButton = ({ product }: { product: Product }) => {
+const AddtoCartButton = ({ product, className, ref }: { product: Product, className?: string , ref?: React.RefObject<HTMLButtonElement> }) => {
   const { addToCart, cart } = useCart();
   const isInCart = cart.some((item) => item.$id === product.$id);
   return (
     <>
       {isInCart ? (
-        <Button className="w-full" asChild variant={"outline"}>
+        <Button className={className ? className : "w-full"} asChild variant={"outline"} ref={ref}>
           <Link href={"/cart"}>Visit Cart</Link>
         </Button>
       ) : (
         <Button
           onClick={() => addToCart(product, 1)}
-          className="w-full gap-2"
-          variant={"outline"}
+          ref={ref}
+          className={`w-full gap-2 ${className}`}
+        //   variant={""}
         >
           <ShoppingCart className="h-4 w-4" />
           Add to Cart

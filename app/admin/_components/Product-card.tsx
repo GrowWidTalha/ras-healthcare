@@ -25,7 +25,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <UpdateStockDialog
             productId={product.$id}
             // @ts-ignore
-            quantity={product.quantity}
+            quantity={product.stock}
           >
             <Button
               variant="secondary"

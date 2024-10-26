@@ -48,7 +48,7 @@ const AddProductForm = ({
       price: product ? product?.price : "",
       description: product ? product?.description : "",
       images: product ? product?.images : [],
-      quantity: product ? product?.quantity : "",
+      quantity: product ? product?.stock : "",
     },
   });
 

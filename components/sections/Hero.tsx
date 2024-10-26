@@ -58,7 +58,7 @@ export default function FullScreenHero() {
   }, [currentSlide])
 
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full h-[70vh] md:h-screen overflow-hidden">
       {heroData.map((hero, index) => (
         <div
           key={index}

@@ -9,7 +9,7 @@ interface ImageUploadProps {
   onImagesSelected: (images: File[]) => void
   maxImages: number
   className?: string
-  existingImages?: string[],
+  existingImages?: string[] | string,
 }
 
 export function ImageUpload({ onImagesSelected, maxImages, className, existingImages }: ImageUploadProps) {
@@ -30,6 +30,8 @@ export function ImageUpload({ onImagesSelected, maxImages, className, existingIm
     onImagesSelected(updatedImages)
   }
 
+  const existingImagesArray = existingImages ? (Array.isArray(existingImages) ? existingImages : [existingImages]) : []
+
   return (
     <div className={className}>
       <Input
@@ -40,7 +42,7 @@ export function ImageUpload({ onImagesSelected, maxImages, className, existingIm
         className="border-blue-200 focus:border-blue-400 focus:ring-blue-400"
       />
       <div className="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {existingImages && existingImages.map((imageUrl, index) => (
+        {existingImagesArray.map((imageUrl, index) => (
           <div key={`existing-${index}`} className="relative">
             <Image
               src={imageUrl}

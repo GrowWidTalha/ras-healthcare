@@ -25,7 +25,7 @@ export const createProduct = async (ProductData: CreateProductParams) => {
         description: ProductData.description,
         price: ProductData.price,
         images: images,
-        quantity: `${ProductData.quantity}`,
+        stock: `${ProductData.quantity}`,
       }
     );
     revalidatePath("/admin/products");
@@ -82,7 +82,7 @@ export const updateProduct = async (
         description: productData.description,
         price: productData.price,
         images: images,
-        quantity: `${productData.quantity}`,
+        stock: `${productData.quantity}`,
       }
     );
     revalidatePath("/admin/products");
@@ -99,7 +99,7 @@ export const updateStock = async (productId: string, stock: string) => {
       PRODUCTS_COLLECTION_ID!,
       productId,
       {
-        quantity: `${stock}`,
+        stock: `${stock}`,
       }
     );
     revalidatePath("/admin/products");

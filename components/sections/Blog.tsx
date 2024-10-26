@@ -1,8 +1,11 @@
 import React from "react";
 import BlogCard from "../BlogCard";
 import { Button } from "../ui/button";
+import { getAllBlogs } from "@/actions/blog.actions";
+import { Blog } from "@/types/appwrite.types";
 
-const Blog = () => {
+const Blog = async() => {
+    const blogs = await getAllBlogs()
   return (
     <section className="py-16 hero">
       <div className="container mx-auto px-4">
@@ -10,8 +13,8 @@ const Blog = () => {
           Latest from Our Blog
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[1, 2, 3].map((blog) => (
-            <BlogCard key={blog} />
+          {blogs.map((blog: Blog) => (
+            <BlogCard key={blog.$id} blog={blog} />
           ))}
         </div>
         <div className="text-center mt-8">

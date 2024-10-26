@@ -4,7 +4,7 @@ export interface Product extends Models.Document {
   name: string;
   description: string;
   price: string;
-  quantity: string;
+  stock: string;
   images: string[];
 }
 export interface Order extends Models.Document {
@@ -18,4 +18,11 @@ export interface Order extends Models.Document {
   number_of_items: number;
   order_items: string;
   status: "pending" | "confirmed"  | "shipped" | "completed" | "cancelled";
+}
+
+export interface Blog extends Models.Document {
+  title: string;
+  content: string;
+  coverImage: string;
+  slug: string;
 }

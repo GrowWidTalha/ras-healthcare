@@ -40,7 +40,7 @@ export function UpdateStockDialog({
   const form = useForm({
     resolver: zodResolver(UpdateStockSchema),
     defaultValues: {
-      stock: quantity,
+      stock: Number(quantity).toFixed(0),
     },
   });
 

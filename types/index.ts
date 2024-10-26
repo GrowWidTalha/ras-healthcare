@@ -17,3 +17,10 @@ export interface CreateOrderProps {
   order_items: string;
   status: "pending" | "confirmed" | "shipped" | "completed" | "cancelled";
 }
+
+export interface CreateBlogProps {
+  title: string;
+  content: string;
+  coverImage: File[] | string | string[] | undefined;
+  slug: string;
+}
