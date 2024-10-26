@@ -2,7 +2,7 @@ import React from "react";
 import BlogCard from "../BlogCard";
 import { Button } from "../ui/button";
 import { getAllBlogs } from "@/actions/blog.actions";
-import { Blog } from "@/types/appwrite.types";
+import { Blog as BlogType } from "@/types/appwrite.types";
 
 const Blog = async() => {
     const blogs = await getAllBlogs()
@@ -13,8 +13,8 @@ const Blog = async() => {
           Latest from Our Blog
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {blogs.map((blog: Blog) => (
-            <BlogCard key={blog.$id} blog={blog} />
+          {blogs.map((blog: BlogType) => (
+            <BlogCard key={blog.$id} blog={blog} type="user" />
           ))}
         </div>
         <div className="text-center mt-8">
