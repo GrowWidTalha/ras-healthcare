@@ -1,79 +1,96 @@
-'use client'
+"use client";
 
-import { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap'
-import { Button } from "@/components/ui/button"
+import { useEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const heroData = [
   {
-    title: "Your path to healthier living",
-    subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    title: "Empower Your Health with RAS",
+    subtitle:
+      "Discover premium supplements designed to support your journey to optimal well-being and vitality.",
     buttonText: "Shop Now",
     image: "/hero1.jpg",
-    color: "from-purple-500 to-purple-700"
+    color: "from-purple-500 to-purple-700",
+    href: "/shop",
   },
   {
-    title: "Quality you can trust",
-    subtitle: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    title: "Trusted Quality, Backed by Science",
+    subtitle:
+      "Our supplements are formulated with the finest ingredients to ensure you get only the best for your body.",
     buttonText: "Learn More",
     image: "/hero2.jpg",
-    color: "from-blue-500 to-blue-700"
+    color: "from-blue-500 to-blue-700",
+    href: "/about-us",
   },
   {
-    title: "Expert guidance at your fingertips",
-    subtitle: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-    buttonText: "Get Started",
+    title: "Stay Informed with the Latest Insights",
+    subtitle:
+      "Explore our blog for expert advice, health tips, and supplement guides to help you make informed decisions.",
+    buttonText: "Read Blog",
     image: "/hero3.jpg",
-    color: "from-green-500 to-green-700"
-  }
-]
+    color: "from-green-500 to-green-700",
+    href: "/blog",
+  },
+];
 
 export default function FullScreenHero() {
-  const [currentSlide, setCurrentSlide] = useState(0)
-  const bgRefs = useRef<(HTMLDivElement | null)[]>([])
-  const contentRefs = useRef<(HTMLDivElement | null)[]>([])
+    const router = useRouter()
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const bgRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const contentRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    bgRefs.current = bgRefs.current.slice(0, heroData.length)
-    contentRefs.current = contentRefs.current.slice(0, heroData.length)
+    bgRefs.current = bgRefs.current.slice(0, heroData.length);
+    contentRefs.current = contentRefs.current.slice(0, heroData.length);
 
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % heroData.length)
-    }, 5000) // Change slide every 5 seconds
+      setCurrentSlide((prev) => (prev + 1) % heroData.length);
+    }, 5000); // Change slide every 5 seconds
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
-    gsap.to(bgRefs.current, { opacity: 0, duration: 1 })
-    gsap.to(bgRefs.current[currentSlide], { opacity: 1, duration: 1 })
+    gsap.to(bgRefs.current, { opacity: 0, duration: 1 });
+    gsap.to(bgRefs.current[currentSlide], { opacity: 1, duration: 1 });
 
-    gsap.to(contentRefs.current, { opacity: 0, y: '50px', duration: 0.5 })
-    gsap.to(contentRefs.current[currentSlide], { opacity: 1, y: '0', duration: 0.5, delay: 0.5 })
+    gsap.to(contentRefs.current, { opacity: 0, y: "50px", duration: 0.5 });
+    gsap.to(contentRefs.current[currentSlide], {
+      opacity: 1,
+      y: "0",
+      duration: 0.5,
+      delay: 0.5,
+    });
 
     return () => {
-      gsap.killTweensOf(bgRefs.current)
-      gsap.killTweensOf(contentRefs.current)
-    }
-  }, [currentSlide])
+      gsap.killTweensOf(bgRefs.current);
+      gsap.killTweensOf(contentRefs.current);
+    };
+  }, [currentSlide]);
 
   return (
     <div className="relative w-full h-[70vh] md:h-screen overflow-hidden">
       {heroData.map((hero, index) => (
         <div
           key={index}
-        //   @ts-ignore
+          //   @ts-ignore
           ref={(el) => (bgRefs.current[index] = el)}
           className={`absolute inset-0 bg-gradient-to-br ${hero.color} opacity-0 transition-opacity duration-1000 ease-in-out`}
-          style={{
-            backgroundImage: `url(${hero.image})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
         >
-          <div className="absolute inset-0 bg-black bg-opacity-40" /> {/* Overlay for better text visibility */}
+          <Image
+            src={hero.image}
+            alt={hero.title}
+            fill
+            priority
+            className="object-cover"
+            quality={100}
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-40" />
           <div
-        //   @ts-ignore
+            //   @ts-ignore
             ref={(el) => (contentRefs.current[index] = el)}
             className="absolute inset-0 flex flex-col justify-center p-8 md:p-16 lg:p-24 opacity-0"
           >
@@ -84,8 +101,13 @@ export default function FullScreenHero() {
               <p className="text-lg text-white md:text-xl mb-8">
                 {hero.subtitle}
               </p>
-              <Button size="lg" className="text-lg rounded-full px-8 py-3">
-                {hero.buttonText}
+              <Button
+              onClick={() => router.push(hero.href)}
+                size="lg"
+
+                className="text-lg rounded-full px-8 py-6"
+              >
+                  {hero.buttonText}
               </Button>
             </div>
           </div>
@@ -97,14 +119,13 @@ export default function FullScreenHero() {
         {heroData.map((_, index) => (
           <Button
             key={index}
-            variant={index === currentSlide ? 'default' : 'outline'}
+            variant={index === currentSlide ? "default" : "outline"}
             size="icon"
             className="w-3 h-3 rounded-full p-0  bg-opacity-50 hover:bg-opacity-100"
             onClick={() => setCurrentSlide(index)}
           />
         ))}
       </div>
-
     </div>
-  )
+  );
 }

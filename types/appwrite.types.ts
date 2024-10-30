@@ -1,3 +1,4 @@
+import { Coupon } from "@/actions/coupon.actions";
 import { Models } from "node-appwrite";
 
 export interface Product extends Models.Document {
@@ -14,12 +15,14 @@ export interface Order extends Models.Document {
   delivery_address: string;
   delivery_city: string;
   delivery_state: string;
-  price: string;
+  price: number;
   number_of_items: number;
   order_items: string;
-  status: "pending" | "confirmed"  | "shipped" | "completed" | "cancelled";
+  status: "pending";
+  couponApplied: boolean;
+  coupon: Coupon | null;
+  discountedPrice: number;
 }
-
 export interface Blog extends Models.Document {
   title: string;
   content: string;

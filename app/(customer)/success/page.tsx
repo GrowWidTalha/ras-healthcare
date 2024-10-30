@@ -5,11 +5,12 @@ import { getOrderById } from "@/actions/orders.actions"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
-const OrderConfirmation = async ({
-  searchParams,
-}: {
-  searchParams: { orderId: string }
-}) => {
+const OrderConfirmation = async (
+  props: {
+    searchParams: Promise<{ orderId: string }>
+  }
+) => {
+  const searchParams = await props.searchParams;
   const { orderId } = searchParams
   const order = await getOrderById(String(orderId))
   const orderItems = JSON.parse(order.order_items)

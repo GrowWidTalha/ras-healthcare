@@ -1,22 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { useCart } from "@/components/providers/CartContext";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Minus, Plus, ShoppingCartIcon, Trash2, X } from "lucide-react";
-import CheckoutDrawer from "@/components/CheckOutBtn";
+import { Minus, Plus, ShoppingCartIcon, Trash2} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { toast } from "sonner";
-import { validateCoupon } from "@/actions/coupon.actions";
 import OrderSummary from "@/components/OrderSummary";
 
 interface CartItemProps {
@@ -113,50 +105,13 @@ const CartItem = ({ item, updateQuantity, removeFromCart }: CartItemProps) => {
   );
 };
 
-
-
 export default function CartPage() {
   const {
     cart,
     removeFromCart,
-    clearCart,
     updateQuantity,
-    applyCoupon: applyCartCoupon,
-    removeCoupon: removeCartCoupon,
-    coupon,
-    getTotalPrice
   } = useCart();
-  const [couponCode, setCouponCode] = useState("");
 
-
-
-  const {total, subtotal}= getTotalPrice()
-
-  const applyCoupon = async () => {
-    if (!couponCode.trim()) {
-      toast.error("Please enter a coupon code");
-      return;
-    }
-
-    try {
-      const result = await validateCoupon(couponCode);
-      if (result.isValid) {
-        let discountAmount = 0;
-        if (result.discountType === "percentage") {
-          discountAmount = subtotal * (result.discountValue / 100);
-        } else {
-          discountAmount = Math.min(result.discountValue, subtotal);
-        }
-        applyCartCoupon(couponCode, discountAmount, result.couponId!);
-        setCouponCode("");
-      } else {
-        toast.error(result.message);
-      }
-    } catch (error) {
-      console.error("Error validating coupon:", error);
-      toast.error("Error applying coupon. Please try again.");
-    }
-  };
 
   if (!cart || cart.length === 0) {
     return (
@@ -187,8 +142,7 @@ export default function CartPage() {
           ))}
         </div>
         <div>
-          <OrderSummary
-          />
+          <OrderSummary />
         </div>
       </div>
     </main>

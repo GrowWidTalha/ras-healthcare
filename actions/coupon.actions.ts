@@ -58,7 +58,7 @@ export async function updateCoupon(
       COUPON_COLLECTION_ID!,
       id,
       {
-...coupon
+        ...coupon,
       }
     );
     return response as unknown as Coupon;
@@ -77,42 +77,51 @@ export async function deleteCoupon(id: string): Promise<void> {
   }
 }
 
-
-
 export async function validateCoupon(code: string) {
-    try {
-      // Fetch the coupon from the database
-      const coupons = await databases.listDocuments(
-        DATABASE_ID!,
-        COUPON_COLLECTION_ID!,
-        [
-          Query.equal('code', code),
-          Query.equal('is_active', true),
-          Query.greaterThan('valid_until', new Date().toISOString()),
-        ]
-      );
+  try {
+    // Fetch the coupon from the database
+    const coupons = await databases.listDocuments(
+      DATABASE_ID!,
+      COUPON_COLLECTION_ID!,
+      [
+        Query.equal("code", code),
+        Query.equal("is_active", true),
+        Query.greaterThan("valid_until", new Date().toISOString()),
+      ]
+    );
 
-      if (coupons.documents.length === 0) {
-        return { isValid: false, message: "Invalid or expired coupon code." };
-      }
-      const coupon = coupons.documents[0];
-
-      // Check if the coupon has reached its usage limit
-      if (coupon.usage_limit && coupon.used_count >= coupon.usage_limit) {
-        return { isValid: false, message: "This coupon has reached its usage limit." };
-      }
-
-      // If we've made it this far, the coupon is valid
-      return {
-        isValid: true,
-        discountType: coupon.discount_type,
-        discountValue: coupon.discount_value,
-        couponId: coupon.$id,
-        message: "Coupon applied successfully!",
-      };
-
-    } catch (error) {
-      console.error("Error validating coupon:", error);
-      return { isValid: false, message: "An error occurred while validating the coupon." };
+    if (coupons.documents.length === 0) {
+      return { isValid: false, message: "Invalid or expired coupon code." };
     }
+    const coupon = coupons.documents[0];
+
+    // Check if the coupon has reached its usage limit
+    if (coupon.usage_limit && coupon.used_count >= coupon.usage_limit) {
+      return {
+        isValid: false,
+        message: "This coupon has reached its usage limit.",
+      };
+    }
+
+    // Increment the used count
+    await updateCoupon(coupon.$id, {
+    //   ...coupon,
+      used_count: coupon.used_count + 1,
+    });
+
+    // If we've made it this far, the coupon is valid
+    return {
+      isValid: true,
+      discountType: coupon.discount_type,
+      discountValue: coupon.discount_value,
+      couponId: coupon.$id,
+      message: "Coupon applied successfully!",
+    };
+  } catch (error) {
+    console.error("Error validating coupon:", error);
+    return {
+      isValid: false,
+      message: "An error occurred while validating the coupon.",
+    };
   }
+}

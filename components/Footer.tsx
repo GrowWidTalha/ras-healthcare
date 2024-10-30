@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const Footer = () => {
@@ -8,37 +9,38 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">About Us</h4>
             <p className="text-sm">
-              RAS Health Care is committed to providing high-quality nutrient
-              supplements to improve your health and well-being.
+              Empowering people to be strong and healthy for an active and
+              productive lifestyle in the digital age. Prioritizing health to
+              prevent sickness, rejuvenating a healthy lifestyle approach.
             </p>
           </div>
           <div>
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="text-sm">
               <li>
-                <a href="#" className="hover:text-blue-400">
+                <Link href="/" className="hover:text-blue-400">
                   Home
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400">
+                <Link href="/products" className="hover:text-blue-400">
                   Products
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400">
+                <Link href="/about" className="hover:text-blue-400">
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400">
+                <Link href="/blog" className="hover:text-blue-400">
                   Blog
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="hover:text-blue-400">
+                <Link href="/contact" className="hover:text-blue-400">
                   Contact
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -50,14 +52,17 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
             <div className="flex space-x-4">
-              <a href="#" className="text-white hover:text-blue-400">
+              <a
+                href="https://www.facebook.com/share/UaavvK5fGnvmYS5e/"
+                className="text-white hover:text-blue-400"
+              >
                 Facebook
               </a>
-              <a href="#" className="text-white hover:text-blue-400">
+              <a
+                href="https://www.instagram.com/rashealthcarekhi/"
+                className="text-white hover:text-blue-400"
+              >
                 Instagram
-              </a>
-              <a href="#" className="text-white hover:text-blue-400">
-                Twitter
               </a>
             </div>
           </div>

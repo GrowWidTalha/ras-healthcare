@@ -11,6 +11,8 @@ import { Input } from "./ui/input";
 import CheckoutDrawer from "./CheckOutBtn";
 import { useCart } from "./providers/CartContext";
 import { useState } from "react";
+import { validateCoupon } from "@/actions/coupon.actions";
+import { toast } from "sonner";
 
 interface OrderSummaryProps {
   isCheckout?: boolean;
@@ -21,8 +23,31 @@ const OrderSummary = ({ isCheckout = false }: OrderSummaryProps) => {
   const [couponCode, setCouponCode] = useState("");
   const { total, subtotal } = getTotalPrice();
 
-  const handleApplyCoupon = () => {
-    applyCoupon(couponCode, 0, "");
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) {
+      toast.error("Please enter a coupon code");
+      return;
+    }
+
+    try {
+      const result = await validateCoupon(couponCode);
+      if (result.isValid) {
+        let discountAmount = 0;
+        if (result.discountType === "percentage") {
+          discountAmount = subtotal * (result.discountValue / 100);
+        } else {
+          discountAmount = Math.min(result.discountValue, subtotal);
+        }
+        applyCoupon(couponCode, discountAmount, result.couponId!);
+        setCouponCode("");
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      console.error("Error validating coupon:", error);
+      toast.error("Error applying coupon. Please try again.");
+    }
   };
 
   return (

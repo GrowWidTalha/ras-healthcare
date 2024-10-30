@@ -81,3 +81,17 @@ export const updateBlog = async (blogId: string, blogData: CreateBlogProps) => {
     console.log("Error while updating blog: ", error);
   }
 };
+
+
+export const deleteBlog = async (id: string) => {
+    try {
+        const blog = await databases.deleteDocument(
+            DATABASE_ID!,
+            BLOGS_COLLECTION_ID!,
+            id)
+            revalidatePath("/admin/blog");
+            return parseStringify(blog);
+    } catch (error) {
+        console.log("Error while deleting blog: ", error);
+    }
+}

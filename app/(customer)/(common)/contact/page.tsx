@@ -13,10 +13,9 @@ import {
   Mail,
   MessageCircle,
   Facebook,
-  Twitter,
   Instagram,
-  Linkedin,
 } from "lucide-react";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -78,42 +77,24 @@ export default function ContactPage() {
               <div className="border-t pt-6">
                 <h3 className="font-semibold mb-4 text-lg">Follow Us</h3>
                 <div className="flex justify-center space-x-6">
-                  <a
-                    href="https://facebook.com/rashealthcare"
+                  <Link
+                    href="https://www.facebook.com/share/UaavvK5fGnvmYS5e/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary transform hover:scale-110 transition-all duration-200"
                   >
                     <Facebook className="h-7 w-7" />
                     <span className="sr-only">Facebook</span>
-                  </a>
-                  <a
-                    href="https://twitter.com/rashealthcare"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary transform hover:scale-110 transition-all duration-200"
-                  >
-                    <Twitter className="h-7 w-7" />
-                    <span className="sr-only">Twitter</span>
-                  </a>
-                  <a
-                    href="https://instagram.com/rashealthcare"
+                  </Link>
+                  <Link
+                    href="https://www.instagram.com/rashealthcarekhi/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-muted-foreground hover:text-primary transform hover:scale-110 transition-all duration-200"
                   >
                     <Instagram className="h-7 w-7" />
                     <span className="sr-only">Instagram</span>
-                  </a>
-                  <a
-                    href="https://linkedin.com/company/rashealthcare"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-primary transform hover:scale-110 transition-all duration-200"
-                  >
-                    <Linkedin className="h-7 w-7" />
-                    <span className="sr-only">LinkedIn</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </CardContent>

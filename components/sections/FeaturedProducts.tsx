@@ -1,7 +1,10 @@
 import React from "react";
-import ProductCard from "../ProductCard";
 import { getAllProducts } from "@/app/admin/_actions/product";
-import { Product } from "@/types/appwrite.types";
+
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import ProductSlider from "../ProductSlider";
 
 const FeaturedProducts = async () => {
   const products = await getAllProducts();
@@ -11,14 +14,12 @@ const FeaturedProducts = async () => {
         <h2 className="text-3xl font-bold text-center mb-10">
           Featured Products
         </h2>
-        <div className="grid place-self-center grid-cols-1 md:grid-cols-4 gap-4">
-          {products.documents.map((product: Product) => (
-            <ProductCard key={product.$id} product={product} />
-          ))}
-        </div>
+<ProductSlider products={products.documents}/>
+
       </div>
     </section>
   );
 };
+
 
 export default FeaturedProducts;
