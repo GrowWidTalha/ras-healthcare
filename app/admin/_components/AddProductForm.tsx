@@ -78,7 +78,7 @@ const AddProductForm = ({
       } else {
         const productData = {
           name: values.name,
-          price: values.price,
+          price: Number(values.price),
           description: values.description,
           images: values.images,
           quantity: values.quantity,
