@@ -24,9 +24,12 @@ interface CartContextType {
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
-  getTotalPrice: () => string;
+  getTotalPrice: () => {total: number; subtotal: number; delivery: number};
   getTotalItems: () => number;
   getOrderItems: () => OrderItem[];
+  applyCoupon: (code: string, discountAmount: number, $id: string) => void;
+  removeCoupon: () => void;
+  coupon: { code: string; discountAmount: number; $id: string } | null;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -37,34 +40,42 @@ interface CartProviderProps {
 
 export function CartProvider({ children }: CartProviderProps) {
   const [cart, setCart] = useState<Product[]>([]);
+  const [coupon, setCoupon] = useState<{
+    code: string;
+    discountAmount: number;
+    $id: string;
+  } | null>(null);
+  const DELIVERY_CHARGE = 200;
 
-  // Load cart from localStorage when the component mounts
+  // Load cart and coupon from localStorage when the component mounts
   useEffect(() => {
     const savedCart = localStorage.getItem("cart");
+    const savedCoupon = localStorage.getItem("coupon");
     if (savedCart) {
       setCart(JSON.parse(savedCart));
     }
+    if (savedCoupon) {
+      setCoupon(JSON.parse(savedCoupon));
+    }
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Save cart and coupon to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+    localStorage.setItem("coupon", JSON.stringify(coupon));
+  }, [cart, coupon]);
 
   const addToCart = (product: Product, quantity: number) => {
-    // @ts-ignore
     setCart((prevCart) => {
       const existingItemIndex = prevCart.findIndex(
         (item) => item.$id === product.$id
       );
 
       if (existingItemIndex !== -1) {
-        // If the product already exists in the cart, update its quantity
         const updatedCart = [...prevCart];
         updatedCart[existingItemIndex].quantity += quantity;
         return updatedCart;
       } else {
-        // If it's a new product, add it to the cart with the specified quantity
         toast.success(`${product.name} added to cart`);
         return [...prevCart, { ...product, quantity }];
       }
@@ -77,7 +88,6 @@ export function CartProvider({ children }: CartProviderProps) {
   };
 
   const updateQuantity = (productId: string, quantity: number) => {
-    // @ts-ignore
     setCart((prevCart) =>
       prevCart.map((item) =>
         item.$id === productId ? { ...item, quantity } : item
@@ -87,17 +97,27 @@ export function CartProvider({ children }: CartProviderProps) {
 
   const clearCart = () => {
     setCart([]);
+    setCoupon(null);
     toast.success(`Cart cleared`);
     localStorage.removeItem("cart");
+    localStorage.removeItem("coupon");
   };
 
   // Compute the total price of all items in the cart
-  const getTotalPrice = (): string => {
-    const total = cart.reduce(
+  const getTotalPrice = () => {
+    const subtotal = cart.reduce(
       (acc, item) => acc + Number(item.price) * Number(item.quantity),
       0
     );
-    return total.toFixed(2); // Return as string with 2 decimal places
+    const discountedSubtotal = coupon
+      ? subtotal - coupon.discountAmount
+      : subtotal;
+    const totalWithDelivery = discountedSubtotal + DELIVERY_CHARGE;
+    return {
+      total: Number(totalWithDelivery.toFixed(2)),
+      subtotal: subtotal + DELIVERY_CHARGE,
+      delivery: DELIVERY_CHARGE,
+    };
   };
 
   // Compute the total number of items in the cart
@@ -107,14 +127,23 @@ export function CartProvider({ children }: CartProviderProps) {
 
   // Get a list of order items with necessary details
   const getOrderItems = (): OrderItem[] => {
-    // @ts-ignore
     return cart.map((item) => ({
       productId: item.$id,
       name: item.name,
-      quantity: item.quantity,
-      price: item.price,
+      quantity: Number(item.quantity),
+      price: Number(item.price),
       totalPrice: Number(item.price) * Number(item.quantity),
     }));
+  };
+
+  const applyCoupon = (code: string, discountAmount: number, $id: string) => {
+    setCoupon({ code, discountAmount, $id });
+    toast.success(`Coupon applied: ${code}`);
+  };
+
+  const removeCoupon = () => {
+    setCoupon(null);
+    toast.success(`Coupon removed`);
   };
 
   return (
@@ -128,13 +157,15 @@ export function CartProvider({ children }: CartProviderProps) {
         getTotalPrice,
         getTotalItems,
         getOrderItems,
+        applyCoupon,
+        removeCoupon,
+        coupon,
       }}
     >
       {children}
     </CartContext.Provider>
   );
 }
-
 export const useCart = () => {
   const context = useContext(CartContext);
   if (context === undefined) {

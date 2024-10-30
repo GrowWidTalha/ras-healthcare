@@ -16,6 +16,9 @@ export interface CreateOrderProps {
   price: number;
   number_of_items: number;
   order_items: string;
+  couponApplied: boolean;
+  coupon_code: string;
+  discountedPrice: number;
   status: "pending" | "confirmed" | "shipped" | "completed" | "cancelled";
 }
 

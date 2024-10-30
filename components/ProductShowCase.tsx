@@ -44,7 +44,7 @@ export default function ProductShowcase({
       const elements = containerRef.current.querySelectorAll(".animate-item");
       gsap.fromTo(
         elements,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: 30 },
         {
           opacity: 1,
           y: 0,

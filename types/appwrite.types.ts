@@ -26,3 +26,10 @@ export interface Blog extends Models.Document {
   coverImage: string;
   slug: string;
 }
+
+export interface Settings extends Models.Document {
+    topbar_enabled: boolean;
+    topbar_text: string;
+    topbar_bg_color: string;
+    topbar_text_color: string;
+}

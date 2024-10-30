@@ -16,16 +16,18 @@ import {
   BarChart3,
   LogOut,
   Menu,
-  BookA
+  BookA,
+  Ticket
 } from 'lucide-react'
+import { PinTopIcon } from '@radix-ui/react-icons'
 
 const sidebarItems = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard, disabled: false },
   { name: 'Orders', href: '/admin/orders', icon: ShoppingBag, disabled: false },
   { name: 'Products', href: '/admin/products', icon: PackageOpen, disabled: false },
   { name: 'Blog', href: '/admin/blog', icon: BookA, disabled: false },
-  { name: 'Customers', href: '/customers', icon: Users, disabled: true },
-  { name: 'Analytics', href: '/analytics', icon: BarChart3, disabled: true},
+  { name: 'Top Bar', href: '/admin/topbar', icon: PinTopIcon, disabled: false },
+  { name: 'Coupon Codes', href: '/admin/coupan', icon: Ticket, disabled: false},
   { name: 'Settings', href: '/settings', icon: Settings , disabled:true},
 ]
 

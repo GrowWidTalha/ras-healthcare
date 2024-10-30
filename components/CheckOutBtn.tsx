@@ -1,17 +1,14 @@
-"use client";
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useCart } from "./providers/CartContext";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Drawer,
   DrawerContent,
   DrawerTrigger,
-  DrawerTitle
+  DrawerTitle,
+  DrawerClose,
 } from "@/components/ui/drawer";
-
 import {
   Form,
   FormControl,
@@ -32,8 +29,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { useMediaQuery } from "usehooks-ts";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import OrderSummary  from "@/components/OrderSummary";
 
 const formSchema = z.object({
   fullName: z.string().min(2, "Full name must be at least 2 characters"),
@@ -56,13 +56,13 @@ export default function CheckoutDrawer() {
         <DialogTrigger asChild>
           <Button className="w-full">Checkout</Button>
         </DialogTrigger>
-        <DialogContent className="max-w-md">
-            <DialogHeader>
-                <DialogTitle>
-                    Checkout
-                </DialogTitle>
-            </DialogHeader>
-          <CheckOutForm />
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Checkout</DialogTitle>
+          </DialogHeader>
+          <ScrollArea className="max-h-[80vh] pr-4">
+            <CheckOutForm setOpen={setOpen} isDesktop={isDesktop} />
+          </ScrollArea>
         </DialogContent>
       </Dialog>
     );
@@ -71,19 +71,34 @@ export default function CheckoutDrawer() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button className="w-full">Check out</Button>
+        <Button className="w-full">Checkout</Button>
       </DrawerTrigger>
       <DrawerContent>
-        <DrawerTitle>Checkout</DrawerTitle>
-        <CheckOutForm />
+        <DrawerTitle className="p-4 text-lg font-semibold">
+          Checkout
+        </DrawerTitle>
+        <ScrollArea className="h-[80vh]">
+          <CheckOutForm setOpen={setOpen} isDesktop={isDesktop} />
+        </ScrollArea>
       </DrawerContent>
     </Drawer>
   );
 }
 
-const CheckOutForm = () => {
-  const { cart, clearCart, getTotalPrice, getTotalItems, getOrderItems } =
-    useCart();
+const CheckOutForm = ({
+  setOpen,
+  isDesktop,
+}: {
+  setOpen: (open: boolean) => void;
+  isDesktop: boolean;
+}) => {
+  const {
+    clearCart,
+    getTotalItems,
+    getOrderItems,
+    coupon,
+    getTotalPrice,
+  } = useCart();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -99,12 +114,7 @@ const CheckOutForm = () => {
     },
   });
 
-  const calculateTotal = () => {
-    return cart.reduce(
-      (total, item) => total + Number(item.price) * Number(item.quantity),
-      0
-    );
-  };
+  const { total, subtotal } = getTotalPrice();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
@@ -115,11 +125,15 @@ const CheckOutForm = () => {
         delivery_address: values.address,
         delivery_city: values.city,
         delivery_state: values.state,
-        price: Number(getTotalPrice()),
+        price: subtotal,
         number_of_items: getTotalItems(),
         order_items: JSON.stringify(getOrderItems()),
         status: "pending",
+        discountedPrice: total,
+        couponApplied: coupon ? true : false,
+        coupon_code: coupon ? coupon.$id : "",
       });
+      console.log(order);
       toast.promise(order, {
         success: "Order Placed Successfully",
         loading: "Order is being placed",
@@ -127,38 +141,19 @@ const CheckOutForm = () => {
       });
       order.then((data) => {
         clearCart();
+        setOpen(false);
         router.push(`/success?orderId=${data.$id}`);
       });
     } catch (error) {
-      console.log("Error while creating order: ", error);
+      console.error("Error while creating order: ", error);
     }
   };
 
   return (
-    <div className="p-4 space-y-4 mb-10 max-h-[70vh] overflow-y-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle>Order Summary</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            {cart.map((item) => (
-              <div key={item.$id} className="flex justify-between">
-                <span>{item.name}</span>
-                <span>Rs {Number(item.price).toFixed(2)}</span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 pt-4 border-t">
-            <div className="flex justify-between items-center">
-              <span className="text-lg font-semibold">Total:</span>
-              <span className="text-lg font-semibold">
-                Rs {calculateTotal().toFixed(2)}
-              </span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+    <div className="p-4 space-y-6">
+      <OrderSummary
+         isCheckout={true}
+      />
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -266,9 +261,20 @@ const CheckOutForm = () => {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">
-            Place Order
-          </Button>
+          <div className="flex gap-2">
+            <Button type="submit" className="flex-1">
+              Place Order
+            </Button>
+            {isDesktop ? (
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+            ) : (
+              <DrawerClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            )}
+          </div>
         </form>
       </Form>
     </div>

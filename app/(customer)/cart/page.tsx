@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useCart } from "@/components/providers/CartContext";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,15 +11,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Minus, Plus, ShoppingCartIcon, Trash2 } from "lucide-react";
+import { Minus, Plus, ShoppingCartIcon, Trash2, X } from "lucide-react";
 import CheckoutDrawer from "@/components/CheckOutBtn";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "sonner";
+import { validateCoupon } from "@/actions/coupon.actions";
+import OrderSummary from "@/components/OrderSummary";
+
 interface CartItemProps {
   item: any;
   updateQuantity: (id: string, quantity: number) => void;
   removeFromCart: (id: string) => void;
 }
+
 const CartItem = ({ item, updateQuantity, removeFromCart }: CartItemProps) => {
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
@@ -30,7 +36,6 @@ const CartItem = ({ item, updateQuantity, removeFromCart }: CartItemProps) => {
   return (
     <Card>
       <div className="flex items-center p-4 gap-4">
-        {/* Image container */}
         <Link href={`/products/${item.name}/${item.$id}`}>
           <div className="relative flex-shrink-0 w-24 h-24">
             <Image
@@ -44,9 +49,7 @@ const CartItem = ({ item, updateQuantity, removeFromCart }: CartItemProps) => {
           </div>
         </Link>
 
-        {/* Product details container */}
         <div className="flex flex-col flex-grow gap-4 md:flex-row md:items-center md:justify-between">
-          {/* Product name */}
           <div className="flex-grow">
             <h3 className="font-semibold text-lg">{item.name}</h3>
             <p className="text-lg font-semibold text-primary">
@@ -54,7 +57,6 @@ const CartItem = ({ item, updateQuantity, removeFromCart }: CartItemProps) => {
             </p>
           </div>
 
-          {/* Quantity controls */}
           <div className="flex items-center gap-4">
             <div
               className="flex items-center space-x-2"
@@ -94,7 +96,6 @@ const CartItem = ({ item, updateQuantity, removeFromCart }: CartItemProps) => {
               </Button>
             </div>
 
-            {/* Remove button */}
             <Button
               variant="destructive"
               size="sm"
@@ -111,62 +112,50 @@ const CartItem = ({ item, updateQuantity, removeFromCart }: CartItemProps) => {
     </Card>
   );
 };
-interface OrderSummaryProps {
-  cart: any[];
-  total: number;
-  clearCart: () => void;
-}
 
-const OrderSummary = ({ cart, total, clearCart }: OrderSummaryProps) => (
-  <Card className="h-fit sticky top-4">
-    <CardHeader>
-      <CardTitle>Order Summary</CardTitle>
-    </CardHeader>
-    <CardContent className="border-t">
-      <div className="space-y-3">
-        {cart.map((item) => (
-          <div key={item.$id} className="flex justify-between text-sm">
-            <span className="truncate pr-4 text-gray-600">
-              {item.name} (x{item.quantity})
-            </span>
-            <span className="flex-shrink-0 font-medium">
-              Rs {(parseFloat(item.price) * Number(item.quantity)).toFixed(2)}
-            </span>
-          </div>
-        ))}
-      </div>
-      <div className="mt-6 pt-4 border-t">
-        <div className="flex justify-between items-center">
-          <span className="text-lg font-semibold">Total:</span>
-          <span className="text-lg font-semibold text-primary">
-            Rs {total.toFixed(2)}
-          </span>
-        </div>
-      </div>
-    </CardContent>
-    <CardFooter className="flex flex-col space-y-2 border-t">
-      <CheckoutDrawer />
-      <Button
-        variant="outline"
-        className="w-full"
-        onClick={clearCart}
-        aria-label="Clear shopping cart"
-      >
-        Clear Cart
-      </Button>
-    </CardFooter>
-  </Card>
-);
+
 
 export default function CartPage() {
-  const { cart, removeFromCart, clearCart, updateQuantity } = useCart();
+  const {
+    cart,
+    removeFromCart,
+    clearCart,
+    updateQuantity,
+    applyCoupon: applyCartCoupon,
+    removeCoupon: removeCartCoupon,
+    coupon,
+    getTotalPrice
+  } = useCart();
+  const [couponCode, setCouponCode] = useState("");
 
-  const calculateTotal = () => {
-    return cart.reduce(
-      (total, item) =>
-        total + (parseFloat(item.price) || 0) * Number(item.quantity),
-      0
-    );
+
+
+  const {total, subtotal}= getTotalPrice()
+
+  const applyCoupon = async () => {
+    if (!couponCode.trim()) {
+      toast.error("Please enter a coupon code");
+      return;
+    }
+
+    try {
+      const result = await validateCoupon(couponCode);
+      if (result.isValid) {
+        let discountAmount = 0;
+        if (result.discountType === "percentage") {
+          discountAmount = subtotal * (result.discountValue / 100);
+        } else {
+          discountAmount = Math.min(result.discountValue, subtotal);
+        }
+        applyCartCoupon(couponCode, discountAmount, result.couponId!);
+        setCouponCode("");
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      console.error("Error validating coupon:", error);
+      toast.error("Error applying coupon. Please try again.");
+    }
   };
 
   if (!cart || cart.length === 0) {
@@ -183,8 +172,6 @@ export default function CartPage() {
     );
   }
 
-  const total = calculateTotal();
-
   return (
     <main className="container mx-auto px-4 py-8">
       <h1 className="text-2xl font-bold mb-6">Your Cart</h1>
@@ -200,7 +187,8 @@ export default function CartPage() {
           ))}
         </div>
         <div>
-          <OrderSummary cart={cart} total={total} clearCart={clearCart} />
+          <OrderSummary
+          />
         </div>
       </div>
     </main>

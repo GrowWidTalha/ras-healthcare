@@ -9,6 +9,8 @@ export const {
   ORDERS_COLLECTION_ID,
   BLOGS_COLLECTION_ID,
   BUCKET_ID,
+  SETTINGS_COLLECTION_ID,
+  COUPON_COLLECTION_ID,
 } = process.env;
 
 const client = new sdk.Client();
