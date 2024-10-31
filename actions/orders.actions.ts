@@ -11,6 +11,7 @@ import { ID, Query } from "node-appwrite";
 import { sendOrderConfirmationEmail } from "./mail.actions";
 import { Order } from "@/types/appwrite.types";
 import { getProductById } from "@/app/admin/_actions/product";
+import { revalidatePath } from "next/cache";
 export const createOrder = async (orderData: CreateOrderProps) => {
   try {
     const order = await databases.createDocument(
@@ -33,7 +34,11 @@ export const createOrder = async (orderData: CreateOrderProps) => {
         discountedPrice: orderData.discountedPrice,
       }
     );
+
     await sendOrderConfirmationEmail(order as Order);
+    revalidatePath("/admin/orders");
+    revalidatePath("/");
+    revalidatePath("/orders");
     return parseStringify(order);
   } catch (error) {
     console.log("Error while Creating order: ", error);
@@ -105,6 +110,9 @@ export const updateOrderStatus = async (
         status,
       }
     );
+    revalidatePath("/admin/orders");
+    revalidatePath("/");
+    revalidatePath("/orders");
 
     return parseStringify(order);
   } catch (error) {

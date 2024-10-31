@@ -1,6 +1,7 @@
 "use server";
 import { COUPON_COLLECTION_ID, DATABASE_ID, databases } from "@/lib/appwrite";
 import { ID, Models } from "appwrite";
+import { revalidatePath } from "next/cache";
 import { Query } from "node-appwrite";
 
 export interface Coupon extends Models.Document {
@@ -41,6 +42,8 @@ export async function createCoupon(
         used_count: 0,
       }
     );
+    revalidatePath("/admin/coupon");
+    revalidatePath("/");
     return response as unknown as Coupon;
   } catch (error) {
     console.error("Error creating coupon:", error);
@@ -61,6 +64,9 @@ export async function updateCoupon(
         ...coupon,
       }
     );
+    revalidatePath("/admin/coupon");
+    revalidatePath("/");
+
     return response as unknown as Coupon;
   } catch (error) {
     console.error("Error updating coupon:", error);
@@ -71,6 +77,9 @@ export async function updateCoupon(
 export async function deleteCoupon(id: string): Promise<void> {
   try {
     await databases.deleteDocument(DATABASE_ID!, COUPON_COLLECTION_ID!, id);
+    revalidatePath("/admin/coupon");
+    revalidatePath("/");
+
   } catch (error) {
     console.error("Error deleting coupon:", error);
     throw error;
@@ -105,11 +114,14 @@ export async function validateCoupon(code: string) {
 
     // Increment the used count
     await updateCoupon(coupon.$id, {
-    //   ...coupon,
+      //   ...coupon,
       used_count: coupon.used_count + 1,
     });
 
     // If we've made it this far, the coupon is valid
+    revalidatePath("/admin/coupon");
+    revalidatePath("/");
+
     return {
       isValid: true,
       discountType: coupon.discount_type,

@@ -24,6 +24,8 @@ export const createBlog = async (blogData: CreateBlogProps) => {
           }
         );
         revalidatePath("/admin/blog");
+            revalidatePath("/")
+            revalidatePath("/blog")
         return parseStringify(blog);
       }
     }
@@ -74,6 +76,8 @@ export const updateBlog = async (blogId: string, blogData: CreateBlogProps) => {
           }
         );
         revalidatePath("/admin/blog");
+            revalidatePath("/")
+            revalidatePath("/blog")
         return parseStringify(blog);
       }
     }
@@ -90,6 +94,8 @@ export const deleteBlog = async (id: string) => {
             BLOGS_COLLECTION_ID!,
             id)
             revalidatePath("/admin/blog");
+            revalidatePath("/")
+            revalidatePath("/blog")
             return parseStringify(blog);
     } catch (error) {
         console.log("Error while deleting blog: ", error);
