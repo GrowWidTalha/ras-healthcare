@@ -21,6 +21,7 @@ interface OrderSummaryProps {
 const OrderSummary = ({ isCheckout = false }: OrderSummaryProps) => {
   const { cart, coupon, getTotalPrice, applyCoupon, removeCoupon } = useCart();
   const [couponCode, setCouponCode] = useState("");
+  const [isApplying, setIsApplying] = useState(false);
   const { total, subtotal } = getTotalPrice();
 
 
@@ -31,6 +32,7 @@ const OrderSummary = ({ isCheckout = false }: OrderSummaryProps) => {
     }
 
     try {
+      setIsApplying(true);
       const result = await validateCoupon(couponCode);
       if (result.isValid) {
         let discountAmount = 0;
@@ -47,6 +49,8 @@ const OrderSummary = ({ isCheckout = false }: OrderSummaryProps) => {
     } catch (error) {
       console.error("Error validating coupon:", error);
       toast.error("Error applying coupon. Please try again.");
+    } finally {
+      setIsApplying(false);
     }
   };
 
@@ -76,7 +80,7 @@ const OrderSummary = ({ isCheckout = false }: OrderSummaryProps) => {
             )}
             <div className="flex justify-between items-center text-lg font-semibold">
               <span>Total:</span>
-              <span className="text-primary">Rs {(total + 200).toFixed(2)}</span>
+              <span className="text-primary">Rs {(total).toFixed(2)}</span>
             </div>
           </div>
         ) : (
@@ -112,7 +116,7 @@ const OrderSummary = ({ isCheckout = false }: OrderSummaryProps) => {
               )}
               <div className="flex justify-between items-center text-lg font-semibold">
                 <span>Total:</span>
-                <span className="text-primary">Rs {(total + 200).toFixed(2)}</span>
+                <span className="text-primary">Rs {(total).toFixed(2)}</span>
               </div>
               <div className="text-sm text-gray-600 bg-gray-100 p-2 rounded">
                 <p>Payment Method: Cash on Delivery (COD)</p>
@@ -144,7 +148,9 @@ const OrderSummary = ({ isCheckout = false }: OrderSummaryProps) => {
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
                 />
-                <Button onClick={handleApplyCoupon}>Apply</Button>
+                <Button onClick={handleApplyCoupon} disabled={isApplying}>
+                  {isApplying ? "Applying..." : "Apply"}
+                </Button>
               </div>
             )}
           </div>

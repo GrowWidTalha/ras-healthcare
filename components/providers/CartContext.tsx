@@ -115,7 +115,7 @@ export function CartProvider({ children }: CartProviderProps) {
     const totalWithDelivery = discountedSubtotal + DELIVERY_CHARGE;
     return {
       total: Number(totalWithDelivery.toFixed(2)),
-      subtotal: subtotal + DELIVERY_CHARGE,
+      subtotal: subtotal,
       delivery: DELIVERY_CHARGE,
     };
   };

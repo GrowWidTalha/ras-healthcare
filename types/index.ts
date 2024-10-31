@@ -20,6 +20,7 @@ export interface CreateOrderProps {
   coupon_code: string;
   discountedPrice: number;
   status: "pending" | "confirmed" | "shipped" | "completed" | "cancelled";
+  postalCode: string;
 }
 
 export interface CreateBlogProps {

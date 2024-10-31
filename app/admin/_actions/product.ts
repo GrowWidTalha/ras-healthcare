@@ -30,6 +30,8 @@ export const createProduct = async (ProductData: CreateProductParams) => {
       }
     );
     revalidatePath("/admin/products");
+    revalidatePath("/");
+    revalidatePath("/", "layout");
 
     return product;
   } catch (error) {
@@ -88,6 +90,8 @@ export const updateProduct = async (
       }
     );
     revalidatePath("/admin/products");
+    revalidatePath("/");
+    revalidatePath("/", "layout");
     return parseStringify(updatedProduct);
   } catch (error) {
     console.log("Error while updating product ", error);
@@ -105,6 +109,8 @@ export const updateStock = async (productId: string, stock: string) => {
       }
     );
     revalidatePath("/admin/products");
+    revalidatePath("/");
+    revalidatePath("/", "layout");
     return parseStringify(updatedProduct);
   } catch (error) {
     console.log("Error while updating product ", error);
@@ -119,6 +125,8 @@ export const deleteProduct = async (productId: string) => {
       productId
     );
     revalidatePath("/admin/products");
+    revalidatePath("/");
+    revalidatePath("/", "layout");
     return true;
   } catch (error) {
     console.log("Error while deleting product ", error);

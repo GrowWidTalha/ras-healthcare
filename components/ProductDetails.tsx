@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Star, Plus, Minus } from "lucide-react";
+import { Star, Plus, Minus, Check } from "lucide-react";
 import Image from "next/image";
 import { useCart } from "./providers/CartContext";
 import { Product } from "@/types/appwrite.types";
@@ -89,15 +89,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-gray-500 ml-2">(1 review)</span>
+                  <span className="text-sm text-gray-500 ml-2">(40 review)</span>
                 </div>
               </div>
-
-              <p className="text-gray-600 leading-relaxed">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor ut et dolore magna aliqua.
-              </p>
-
               <div className="text-3xl font-bold text-blue-600">
                 Rs. {Number(product.price).toFixed(2)}
               </div>
@@ -151,18 +145,15 @@ export default function ProductDetail({ product }: ProductDetailProps) {
               </div>
 
               <div className="space-y-2 pt-4">
-                <div className="flex gap-2 text-sm">
-                  <span className="text-gray-500">Category:</span>
-                  <span className="text-gray-700">{product.category}</span>
-                </div>
-                <div className="flex gap-2 text-sm">
-                  <span className="text-gray-500">Product ID:</span>
-                  <span className="text-gray-700">{product.$id}</span>
-                </div>
+                {product.benefits.map((benefit: string, index: number) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <Check className="w-4 h-4 text-green-500" />
+                    <span className="text-gray-700">{benefit}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-
           {/* Tabs Section */}
           <Card className="mt-8 border-none shadow-none">
             <Tabs defaultValue="description" className="w-full">
@@ -176,8 +167,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 <TabsTrigger
                   value="reviews"
                   className="rounded-none border-b-2 border-transparent data-[state=active]:border-blue-600 px-0"
+                  disabled
                 >
-                  REVIEWS (1)
+                  REVIEWS (40)
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="description" className="pt-8">

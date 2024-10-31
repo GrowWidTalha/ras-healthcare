@@ -1,4 +1,6 @@
-import React from "react";
+"use client"
+import React, { useState } from "react";
+
 import { useForm } from "react-hook-form";
 import { useCart } from "./providers/CartContext";
 import { Button } from "@/components/ui/button";
@@ -56,7 +58,7 @@ export default function CheckoutDrawer() {
         <DialogTrigger asChild>
           <Button className="w-full">Checkout</Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="max-w-[600px]">
           <DialogHeader>
             <DialogTitle>Checkout</DialogTitle>
           </DialogHeader>
@@ -100,6 +102,7 @@ const CheckOutForm = ({
     getTotalPrice,
   } = useCart();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -117,8 +120,9 @@ const CheckOutForm = ({
   const { total, subtotal } = getTotalPrice();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
     try {
-      const order = createOrder({
+      const orderPromise = createOrder({
         customer_name: values.fullName,
         customer_email: values.email,
         customer_phone: values.phone,
@@ -132,20 +136,23 @@ const CheckOutForm = ({
         discountedPrice: total,
         couponApplied: coupon ? true : false,
         coupon_code: coupon ? coupon.$id : "",
+        postalCode: values.postalCode,
       });
-      console.log(order);
-      toast.promise(order, {
+
+      toast.promise(orderPromise, {
         success: "Order Placed Successfully",
         loading: "Order is being placed",
         error: "Something went wrong",
       });
-      order.then((data) => {
-        clearCart();
-        setOpen(false);
-        router.push(`/success?orderId=${data.$id}`);
-      });
+
+      const data = await orderPromise;
+      clearCart();
+      setOpen(false);
+      router.push(`/success?orderId=${data.$id}`);
     } catch (error) {
       console.error("Error while creating order: ", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -154,7 +161,6 @@ const CheckOutForm = ({
       <OrderSummary
          isCheckout={true}
       />
-
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <FormField
@@ -262,8 +268,8 @@ const CheckOutForm = ({
             )}
           />
           <div className="flex gap-2">
-            <Button type="submit" className="flex-1">
-              Place Order
+            <Button type="submit" className="flex-1" disabled={isLoading}>
+              {isLoading ? "Placing Order..." : "Place Order"}
             </Button>
             {isDesktop ? (
               <DialogClose asChild>

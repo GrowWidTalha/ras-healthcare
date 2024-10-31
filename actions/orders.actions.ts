@@ -32,6 +32,7 @@ export const createOrder = async (orderData: CreateOrderProps) => {
         couponApplied: orderData.couponApplied,
         coupon: orderData.coupon_code,
         discountedPrice: orderData.discountedPrice,
+        postalCode: orderData.postalCode,
       }
     );
 
