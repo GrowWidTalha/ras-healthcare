@@ -12,7 +12,7 @@ const heroData = [
     subtitle:
       "Discover premium supplements designed to support your journey to optimal well-being and vitality.",
     buttonText: "Shop Now",
-    image: "/hero1.jpg",
+    image: "/hero-carousels/calcar-no-text.jpg",
     color: "from-purple-500 to-purple-700",
     href: "/shop",
   },
@@ -21,19 +21,28 @@ const heroData = [
     subtitle:
       "Our supplements are formulated with the finest ingredients to ensure you get only the best for your body.",
     buttonText: "Learn More",
-    image: "/hero2.jpg",
+    image: "/hero-carousels/follicare-no-text.jpg",
     color: "from-blue-500 to-blue-700",
     href: "/about-us",
   },
-  {
-    title: "Stay Informed with the Latest Insights",
-    subtitle:
-      "Explore our blog for expert advice, health tips, and supplement guides to help you make informed decisions.",
-    buttonText: "Read Blog",
-    image: "/hero3.jpg",
-    color: "from-green-500 to-green-700",
-    href: "/blog",
-  },
+//   {
+//     title: "Trusted Quality, Backed by Science",
+//     subtitle:
+//       "Our supplements are formulated with the finest ingredients to ensure you get only the best for your body.",
+//     buttonText: "Learn More",
+//     image: "/hero-carousels/follicare-text.jpg",
+//     color: "from-blue-500 to-blue-700",
+//     href: "/about-us",
+//   },
+//   {
+//     title: "",
+//     subtitle:
+//       "",
+//     buttonText: "",
+//     image: "/hero-carousels/follicare-text.jpg",
+//     color: "from-blue-500 to-blue-700",
+//     href: "/about-us",
+//   },
 ];
 
 export default function FullScreenHero() {
@@ -85,10 +94,10 @@ export default function FullScreenHero() {
             alt={hero.title}
             fill
             priority
-            className="object-cover"
+            className="object-cover object-right"
             quality={100}
           />
-          <div className="absolute inset-0 bg-black bg-opacity-40" />
+          <div className="absolute " />
           <div
             //   @ts-ignore
             ref={(el) => (contentRefs.current[index] = el)}
