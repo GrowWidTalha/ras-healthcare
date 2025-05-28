@@ -1,83 +1,88 @@
-"use client";
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { Card } from "@/components/ui/card";
-import { Product } from "@/types/appwrite.types";
-import Image from "next/image";
-import AddtoCartButton from "./AddtoCartButton";
-import Link from "next/link";
+"use client"
+import { Card } from "@/components/ui/card"
+import type { Product } from "@/types/appwrite.types"
+import Image from "next/image"
+import { useCart } from "./providers/CartContext"
+import { Star, ShoppingCart } from "lucide-react"
+import Link from "next/link"
 
 export default function ProductCard({ product }: { product: Product }) {
-  const { name, price, images } = product;
-  const cardRef = useRef<HTMLDivElement>(null);
-  const priceRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLDivElement>(null);
+    const { name, price, images, description } = product
+    const { addToCart } = useCart()
 
-  useEffect(() => {
-    const card = cardRef.current;
-    const priceElement = priceRef.current;
-    const buttonElement = buttonRef.current;
+    // Function to generate the background color class based on product name
+    const getBackgroundColor = () => {
+        const productName = name.toLowerCase()
+        if (productName.includes("naturfol")) return "hover:bg-purple-500"
+        if (productName.includes("follicare")) return "hover:bg-green-500"
+        if (productName.includes("calcar")) return "hover:bg-red-500"
+        if (productName.includes("caldense")) return "hover:bg-blue-500"
+        return "hover:bg-blue-500"
+    }
 
-    if (!card || !priceElement || !buttonElement) return;
+    // Extract tablet count from product name or description
+    const getTabletCount = () => {
+        const match = name.match(/(\d+)\s*tablets?/i) || description?.match(/(\d+)\s*tablets?/i)
+        return match ? `${match[1]} TABLETS` : "30 TABLETS"
+    }
 
-    const timeline = gsap.timeline({ paused: true });
+    // Format the product name to match the design
+    const getFormattedName = () => {
+        return name
+            .split(/\s*\d+\s*tablets?/i)[0]
+            .trim()
+            .toUpperCase()
+    }
 
-    timeline
-      .to(priceElement, {
-        yPercent: -100,
-        duration: 0.3,
-        ease: "power2.inOut",
-      })
-      .to(
-        buttonElement,
-        {
-          yPercent: -100,
-          duration: 0.3,
-          ease: "power2.inOut",
-        },
-        "-=0.3"
-      );
+    return (
+        <div className="relative group w-full max-w-[300px] pt-[125px]">
+            {/* Cart Button - Positioned half outside the card */}
+            <button
+                onClick={() => addToCart(product, 1)}
+                className="absolute -right-3 top-[140px] z-20 bg-white w-12 h-12 rounded-full shadow-md flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110"
+                aria-label="Add to cart"
+            >
+                <ShoppingCart className="h-5 w-5 text-blue-900" />
+            </button>
 
-    card.addEventListener("mouseenter", () => timeline.play());
-    card.addEventListener("mouseleave", () => timeline.reverse());
+            <Card className={`${getBackgroundColor()} transition-all duration-300 rounded-tr-[80px] h-full relative`}>
+                <Link href={`/products/${product.$id}`}>
+                    {/* Product Image - Positioned to overflow from top and aligned to left */}
+                    <div className="absolute -top-[125px] left-6 flex">
+                        <Image
+                            src={images[0] || "/placeholder.svg"}
+                            alt={name}
+                            width={220}
+                            height={280}
+                            className="object-contain h-[250px] transform transition-transform duration-300 group-hover:scale-105"
+                        />
+                    </div>
+                </Link>
 
-    return () => {
-      timeline.kill();
-    };
-  }, []);
+                {/* Product Details - Add padding top to make space for the image */}
+                <div className="p-4 pt-[125px]">
+                    {/* Rating Stars */}
+                    <div className="flex gap-0.5 mb-3">
+                        {[...Array(5)].map((_, i) => (
+                            <Star
+                                key={i}
+                                size={18}
+                                className="fill-orange-400 text-orange-400 group-hover:text-white group-hover:fill-transparent"
+                            />
+                        ))}
+                    </div>
 
-  return (
-    <Card
-      ref={cardRef}
-      className="group relative w-[300px] overflow-hidden rounded-xl bg-white p-6 shadow-lg transition-all duration-300 hover:shadow-xl"
-    >
-      <Link href={`/products/${product.name}/${product.$id}`} >
-        <div className="aspect-square overflow-hidden rounded-lg bg-white p-4">
-          <Image
-            src={images[0]}
-            alt={name}
-            width={300}
-            height={300}
-            className=" w-full object-contain transition-transform duration-300 group-hover:scale-105"
-          />
+                    {/* Product Name and Tablet Count */}
+                    <h3 className="font-bold text-xl group-hover:text-white text-gray-900 mb-1">
+                        {getFormattedName()} <span className="group-hover:text-white text-gray-900">({getTabletCount()})</span>
+                    </h3>
+
+                    {/* Price */}
+                    <p className="text-2xl font-bold text-blue-900 group-hover:text-white">
+                        Rs. {Number(price).toFixed(Number(price) % 1 === 0 ? 0 : 2)}
+                    </p>
+                </div>
+            </Card>
         </div>
-      </Link>
-      <div className="mt-4 space-y-2">
-        <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
-        <div className="relative h-10 overflow-hidden">
-          <div ref={priceRef} className="absolute w-full">
-            <p className="text-xl font-bold text-gray-900">
-              Rs. {Number(price).toFixed(2)}
-            </p>
-          </div>
-          <div
-            ref={buttonRef}
-            className="absolute top-full w-full transform transition-transform"
-          >
-            <AddtoCartButton product={product} />
-          </div>
-        </div>
-      </div>
-    </Card>
-  );
+    )
 }

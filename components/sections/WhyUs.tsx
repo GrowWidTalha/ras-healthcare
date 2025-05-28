@@ -1,37 +1,72 @@
-import React from "react";
-import { Medal, FlaskConical, Truck } from "lucide-react";
+import { Shield, FlaskConical, Truck, PackageCheck } from "lucide-react"
+import Image from "next/image"
 
 const WhyUs = () => {
-  return (
-    <section className="bg-gray-100 py-16">
-      <div className="container mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold mb-6">Why Choose RAS Health Care?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="flex flex-col items-center">
-            <Medal className="w-12 h-12 text-primary mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Premium Quality</h3>
-            <p className="text-gray-600">
-              Our products are made with the highest quality ingredients.
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            <FlaskConical className="w-12 h-12 text-primary mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Expert Formulations</h3>
-            <p className="text-gray-600">
-              Developed by health professionals for optimal results.
-            </p>
-          </div>
-          <div className="flex flex-col items-center">
-            <Truck className="w-12 h-12 text-primary mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Nationwide Delivery</h3>
-            <p className="text-gray-600">
-              Fast and reliable shipping all over Pakistan.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+    return (
+        <section className="bg-blue-50 py-16 relative overflow-hidden">
+            <div className="container mx-auto px-4">
+                {/* Heading with decorative line */}
+                <div className="text-center mb-16">
+                    <div className="w-20 h-1 bg-teal-500 mx-auto mb-6"></div>
+                    <h2 className="text-3xl md:text-4xl font-bold">
+                        WHY CHOOSE <span className="text-teal-500">RAS</span>
+                    </h2>
+                </div>
 
-export default WhyUs;
+                {/* Features */}
+                <div className="relative">
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-y-10 md:gap-x-6 relative z-10">
+                        {/* 100% Natural */}
+                        <div className="flex flex-col items-center text-center group transition-all duration-300">
+                            <div className="w-24 h-24 bg-white group-hover:bg-teal-500 group transition-all duration-300  rounded-full flex items-center justify-center shadow-md mb-6 border-4 group-hover:border-white">
+                                <Shield className="w-10 h-10 text-blue-900 group-hover:text-white" strokeWidth={1.5} />
+                            </div>
+                            <h3 className="group-hover:text-teal-500 text-black font-semibold mb-1">100% NATURAL</h3>
+                            <p className="group-hover:text-teal-500 text-black font-medium">FORMULAS</p>
+                        </div>
+
+                        {/* Trusted by doctors */}
+                        <div className="flex flex-col items-center text-center group">
+                            <div className="w-24 h-24 bg-white group-hover:bg-teal-500 group transition-all duration-300  rounded-full flex items-center justify-center shadow-md mb-6 border-4 group-hover:border-white">
+                                <FlaskConical className="w-10 h-10 text-blue-900 group-hover:text-white" strokeWidth={1.5} />
+                            </div>
+                            <h3 className="group-hover:text-teal-500 text-black font-semibold mb-1">TRUSTED BY LOCAL</h3>
+                            <p className="group-hover:text-teal-500 text-black font-medium">DOCTORS</p>
+                        </div>
+
+                        {/* Fast Delivery */}
+                        <div className="flex flex-col items-center text-center group transition-all duration-300">
+                            <div className="w-24 h-24 bg-white group-hover:bg-teal-500 group transition-all duration-300  rounded-full flex items-center justify-center shadow-md mb-6 border-4 group-hover:border-white">
+                                <Truck className="w-10 h-10 text-blue-900 group-hover:text-white" strokeWidth={1.5} />
+                            </div>
+                            <h3 className="group-hover:text-teal-500 text-black font-semibold mb-1">FAST DELIVERY</h3>
+                            <p className="group-hover:text-teal-500 text-black font-medium">IN PAKISTAN</p>
+                        </div>
+
+                        {/* Return Policy */}
+                        <div className="flex flex-col items-center text-center group transition-all duration-300">
+                            <div className="w-24 h-24 bg-white group-hover:bg-teal-500 group transition-all duration-300  rounded-full flex items-center justify-center shadow-md mb-6 border-4 group-hover:border-white">
+                                <PackageCheck className="w-10 h-10 text-blue-900 group-hover:text-white" strokeWidth={1.5} />
+                            </div>
+                            <h3 className="group-hover:text-teal-500 text-black font-semibold mb-1">10-DAY RETURN</h3>
+                            <p className="group-hover:text-teal-500 text-black font-medium">POLICY</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Bottom decorative line */}
+                <Image
+                    src="/wires.png"
+                    alt="Why Us"
+                    width={1000}
+                    height={1000}
+                    className="absolute top-40 left-0 w-full h-auto"
+                />
+                {/* <div className="w-24 h-1 bg-teal-500 mx-auto mt-16"></div> */}
+            </div>
+        </section>
+    )
+}
+
+export default WhyUs
