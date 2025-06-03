@@ -11,7 +11,7 @@ export default function HeroSection() {
             <div className="absolute inset-0 z-0">
                 <div className="absolute  z-10" />
                 <Image
-                    src="/hero-bg.png"
+                    src="/hero-img-2.png"
                     alt="Family looking at health products"
                     fill
                     className="object-cover"
