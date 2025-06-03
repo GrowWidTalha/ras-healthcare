@@ -13,7 +13,7 @@ export default function HeroSection() {
                     src="/hero-img-3.png"
                     alt="Family looking at health products"
                     fill
-                    className="object-cover object-center"
+                    className="object-cover object-bottom"
                     priority
                     quality={100}
                 />
@@ -22,7 +22,7 @@ export default function HeroSection() {
             </div>
 
             {/* Content container */}
-            <div className="container mx-auto relative h-full flex flex-col justify-center">
+            {/* <div className="container mx-auto relative h-full flex flex-col justify-center">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center">
                     {/* Left side - Text content */}
                     <div className="text-white space-y-3 md:space-y-4 px-4 sm:px-6 lg:pl-8">
@@ -53,7 +53,7 @@ export default function HeroSection() {
                         {/* Product images section removed for cleaner full-screen hero */}
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
