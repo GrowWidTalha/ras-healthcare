@@ -2,11 +2,11 @@ import React from 'react'
 import Image from 'next/image'
 
 const stores = [
-    { name: 'Hamdard', logo: '/hamdard.png' },
-    { name: 'DVAGO', logo: '/dvago.png' },
-    { name: 'Online Pharmacy', logo: '/onlinepharmacy.png' },
-    { name: 'Meri Pharmacy', logo: '/meripharmacy.png' },
-    { name: 'MedLife', logo: '/medlife.png' },
+    { name: 'Imtiaz Super Market', logo: '/imtiaz-logo.png' },
+    { name: 'Naheed Super Store', logo: '/naheed-logo.png' },
+    { name: 'Springs Super Market', logo: '/springs-logo.jpg' },
+    { name: 'Bin Hashim Super Store', logo: '/binhashim-logo.jpg' },
+    { name: 'Time Medicos', logo: '/time-logo.png' },
 ]
 
 const AvailableInStores = () => {
