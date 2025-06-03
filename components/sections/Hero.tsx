@@ -10,7 +10,7 @@ export default function HeroSection() {
             {/* Background image with overlay */}
             <div className="absolute inset-0">
                 <Image
-                    src="/hero-img-2.png"
+                    src="/hero-img-3.png"
                     alt="Family looking at health products"
                     fill
                     className="object-cover object-center"
