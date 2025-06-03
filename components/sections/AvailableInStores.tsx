@@ -4,7 +4,7 @@ import Image from 'next/image'
 const stores = [
     { name: 'Imtiaz Super Market', logo: '/imtiaz-logo.png' },
     { name: 'Naheed Super Store', logo: '/naheed-logo.png' },
-    { name: 'Springs Super Market', logo: '/springs-logo.jpg' },
+    { name: 'Springs Super Market', logo: '/springs-logo.png' },
     { name: 'Bin Hashim Super Store', logo: '/binhashim-logo.jpg' },
     { name: 'Time Medicos', logo: '/time-logo.png' },
 ]

@@ -6,21 +6,23 @@ import { ChevronDown } from "lucide-react"
 
 export default function HeroSection() {
     return (
-        <div className="relative bg-blue-50 w-full h-auto min-h-[600px] sm:min-h-[700px] md:min-h-[800px] lg:min-h-[1000px] overflow-hidden">
+        <div className="relative w-full h-screen overflow-hidden">
             {/* Background image with overlay */}
-            <div className="absolute inset-0 z-0">
-                <div className="absolute  z-10" />
+            <div className="absolute inset-0">
                 <Image
                     src="/hero-img-2.png"
                     alt="Family looking at health products"
                     fill
-                    className="object-cover"
+                    className="object-cover object-center"
                     priority
+                    quality={100}
                 />
+                {/* Dark overlay for better text readability */}
+                {/* <div className="absolute inset-0 bg-black/30" /> */}
             </div>
 
             {/* Content container */}
-            <div className="container mx-auto relative z-20 h-full flex flex-col justify-center pt-40 md:pt-40 lg:pt-48">
+            <div className="container mx-auto relative h-full flex flex-col justify-center">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 items-center">
                     {/* Left side - Text content */}
                     <div className="text-white space-y-3 md:space-y-4 px-4 sm:px-6 lg:pl-8">
@@ -48,50 +50,7 @@ export default function HeroSection() {
 
                     {/* Right side - Product images */}
                     <div className="mt-8 lg:mt-0 relative px-4 sm:px-0">
-                        {/* Mobile product view (1 centered product) */}
-                        {/* <div className="block lg:hidden relative h-[300px] sm:h-[350px] w-full">
-                            <div className="relative h-full w-full flex justify-center">
-                                <Image
-                                    src="/caldense.png"
-                                    alt="Caldense"
-                                    width={200}
-                                    height={350}
-                                    className="object-contain z-20"
-                                />
-                            </div>
-                        </div> */}
-
-                        {/* Desktop product view (multiple products) */}
-                        <div className="hidden lg:block relative h-[450px] w-full">
-                            <Image
-                                src="/caldense.png"
-                                alt="Caldense"
-                                width={300}
-                                height={450}
-                                className="absolute -top-16 left-[40%] transform -translate-x-1/4 z-20"
-                            />
-                            <Image
-                                src="/vitalmax.png"
-                                alt="Vitalmax"
-                                width={250}
-                                height={400}
-                                className="absolute top-10 left-4 z-10"
-                            />
-                            <Image
-                                src="/calcar.png"
-                                alt="Calcar"
-                                width={200}
-                                height={400}
-                                className="absolute top-10 right-20 z-10"
-                            />
-                            <Image
-                                src="/capsules.png"
-                                alt="Capsules"
-                                width={400}
-                                height={200}
-                                className="absolute -bottom-32 right-10 z-30"
-                            />
-                        </div>
+                        {/* Product images section removed for cleaner full-screen hero */}
                     </div>
                 </div>
             </div>
