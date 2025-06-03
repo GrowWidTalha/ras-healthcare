@@ -209,6 +209,7 @@ const ProductBenefits = () => {
                         {benefits.map((benefit, index) => (
                             <div key={index} className="flex items-center gap-8">
                                 <div
+                                // @ts-ignore
                                     ref={(el) => (circleRefs.current[index] = el)}
                                     className="relative z-10 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center transition-all duration-500"
                                 >
