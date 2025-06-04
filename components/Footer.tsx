@@ -29,7 +29,7 @@ const Footer = () => {
                     <div>
                         <h4 className="text-lg font-bold mb-2">Mission</h4>
                         <p className="text-sm text-gray-700">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        We are a consumer-focused, science-driven company. Through continuous innovation, we optimize our products to meet evolving needs.
                         </p>
                     </div>
                     {/* Quick Links */}
