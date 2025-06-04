@@ -15,7 +15,7 @@ const products = [
     },
     {
         name: "Naturfol",
-        image: "/vitalmax.png",
+        image: "/naturfol.png",
         bgColor: "#9C27B0", // Purple
         capsules: "/capsules.png",
     },
@@ -30,15 +30,15 @@ const products = [
 const benefits = [
     {
         icon: Percent,
-        text: "Save 25% or more",
+        text: "Save on online purchase",
     },
     {
         icon: Truck,
-        text: "Free delivery on orders over Rs. 1000",
+        text: "Free delivery on orders over Rs. 3000",
     },
     {
         icon: WalletCards,
-        text: "10-day return policy",
+        text: "100% Satisfaction Guaranteed",
     },
 ]
 
