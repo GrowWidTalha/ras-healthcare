@@ -22,8 +22,8 @@ const WhyUs = () => {
                             <div className="w-24 h-24 bg-white group-hover:bg-teal-500 group transition-all duration-300  rounded-full flex items-center justify-center shadow-md mb-6 border-4 group-hover:border-white">
                                 <Shield className="w-10 h-10 text-blue-900 group-hover:text-white" strokeWidth={1.5} />
                             </div>
-                            <h3 className="group-hover:text-teal-500 text-black font-semibold mb-1">100% NATURAL</h3>
-                            <p className="group-hover:text-teal-500 text-black font-medium">FORMULAS</p>
+                            <h3 className="group-hover:text-teal-500 text-black font-semibold mb-1">INNOVATIVE</h3>
+                            <p className="group-hover:text-teal-500 text-black font-medium">FORMULATION</p>
                         </div>
 
                         {/* Trusted by doctors */}
@@ -41,7 +41,7 @@ const WhyUs = () => {
                                 <Truck className="w-10 h-10 text-blue-900 group-hover:text-white" strokeWidth={1.5} />
                             </div>
                             <h3 className="group-hover:text-teal-500 text-black font-semibold mb-1">FAST DELIVERY</h3>
-                            <p className="group-hover:text-teal-500 text-black font-medium">IN PAKISTAN</p>
+                            <p className="group-hover:text-teal-500 text-black font-medium">WORLDWIDE</p>
                         </div>
 
                         {/* Return Policy */}
@@ -49,8 +49,8 @@ const WhyUs = () => {
                             <div className="w-24 h-24 bg-white group-hover:bg-teal-500 group transition-all duration-300  rounded-full flex items-center justify-center shadow-md mb-6 border-4 group-hover:border-white">
                                 <PackageCheck className="w-10 h-10 text-blue-900 group-hover:text-white" strokeWidth={1.5} />
                             </div>
-                            <h3 className="group-hover:text-teal-500 text-black font-semibold mb-1">10-DAY RETURN</h3>
-                            <p className="group-hover:text-teal-500 text-black font-medium">POLICY</p>
+                            <h3 className="group-hover:text-teal-500 text-black font-semibold mb-1">100% SATISFACTION</h3>
+                            <p className="group-hover:text-teal-500 text-black font-medium">GUARANTEED</p>
                         </div>
                     </div>
                 </div>
