@@ -34,7 +34,6 @@ const Navbar = () => {
                                 <div className="relative group">
                                     <button className="flex items-center text-sm font-medium hover:text-blue-600 transition-colors">
                                         Shop Now
-                                        <ChevronDown className="ml-1 h-4 w-4" />
                                     </button>
                                 </div>
 
