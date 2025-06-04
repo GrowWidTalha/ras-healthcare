@@ -54,16 +54,6 @@ const Navbar = () => {
 
                         {/* Right side icons */}
                         <div className="hidden md:flex items-center space-x-6">
-                            <span className="text-sm font-medium">Login / Register</span>
-
-                            <Button variant="ghost" size="icon" className="hover:bg-transparent">
-                                <Search className="h-5 w-5" />
-                            </Button>
-
-                            <Button variant="ghost" size="icon" className="hover:bg-transparent">
-                                <Heart className="h-5 w-5" />
-                            </Button>
-
                             <Button variant="ghost" asChild size="icon" className="relative hover:bg-transparent">
                                 <Link href="/cart">
                                     <ShoppingCart className="h-5 w-5" />
