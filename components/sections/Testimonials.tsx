@@ -7,37 +7,33 @@ import { gsap } from "gsap"
 const testimonials = [
     {
         id: 1,
-        name: "JOHN SMITH",
-        role: "CLIENT",
-        image: "/testimonials/john-smith.jpg",
+        name: "Ahmed Raza",
+        role: "Customer",
         rating: 5,
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        text: "Main roz kaafi thaka hua mehsoos karta tha, lekin Ras Healthcare ke multivitamins lena shuru kiya toh energy levels mein bohot farq aya. Har roz kaam par fresh mehsoos karta hoon. Yeh local brand hone ke bawajood quality mein kisi se kam nahi!",
     },
     {
         id: 2,
-        name: "JESSA RHOADES",
-        role: "CLIENT",
-        image: "/testimonials/jessa-rhoades.jpg",
+        name: "Mrs. Sara Khan",
+        role: "Customer",
         rating: 5,
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        text: "Mujhe hair fall ka masla bohot arsay se tha. Ras Healthcare ka biotin supplement try kiya aur 2 mahine mein farq nazar aana shuru hogaya. Mujhe sab se achi baat yeh lagi ke natural ingredients use hotay hain.",
     },
     {
         id: 3,
-        name: "MALIKA SHAG",
-        role: "CLIENT",
-        image: "/testimonials/malika-shag.jpg",
+        name: "Bilal Javed",
+        role: "Customer",
         rating: 5,
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        text: "Gym ke baad recovery mein problem hoti thi, lekin Ras ka whey protein genuinely effective hai. Taste bhi achha hai aur price bhi reasonable hai. Pehli dafa kisi Pakistani brand par itna trust aya hai.",
     },
     {
         id: 4,
-        name: "JASON MARK",
-        role: "CLIENT",
-        image: "/testimonials/jason-mark.jpg",
+        name: "Dr. Mehwish Arif",
+        role: "Customer",
         rating: 4,
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+        text: "As a doctor, mein supplements bohot soch samajh kar recommend karti hoon. Ras Healthcare ke products not only safe hain, balke patients ke feedback bhi kaafi positive aya hai. Packaging aur delivery service bhi impressive thi.",
     },
-]
+];
 
 // Duplicate testimonials to create a seamless loop effect
 const extendedTestimonials = [...testimonials, ...testimonials]
@@ -61,9 +57,6 @@ const TestimonialCard = ({ testimonial }: { testimonial: (typeof testimonials)[0
 
             {/* User Info */}
             <div className="flex items-center gap-4">
-                <div className="relative w-12 h-12 rounded-full overflow-hidden">
-                    <Image src={testimonial.image || "/placeholder.svg"} alt={testimonial.name} fill className="object-cover" />
-                </div>
                 <div>
                     <h4 className="font-bold text-gray-900">{testimonial.name}</h4>
                     <p className="text-sm text-gray-500">{testimonial.role}</p>
