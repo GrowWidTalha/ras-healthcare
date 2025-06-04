@@ -49,7 +49,8 @@ const Footer = () => {
                         <ul className="text-sm space-y-2">
                             <li className="flex items-center"><Phone className="w-4 h-4 text-[#1cc6e3] mr-2" /> +92-321-2012317</li>
                             <li className="flex items-center"><Mail className="w-4 h-4 text-[#1cc6e3] mr-2" /> info@rashealthcare.com.pk</li>
-                            <li className="flex items-start"><MapPin className="w-4 h-4 text-[#1cc6e3] mr-2 mt-0.5" /> 74-C, First Floor, 10th Commercial Street<br />Phase-4, DHA Karachi.</li>
+                            <li className="flex items-start"><MapPin className="w-4 h-4 text-[#1cc6e3] mr-2 mt-0.5" /> Head Office: NSW 2719, Australia </li>
+                            <li className="flex items-start"><MapPin className="w-4 h-4 text-[#1cc6e3] mr-2 mt-0.5" /> Asia Region Office: 74-C, First Floor, 10th Commercial Street<br />Phase-4, DHA Karachi.</li>
                         </ul>
                     </div>
                 </div>
