@@ -17,11 +17,15 @@ export default function ProductCard({ product }: { product: Product }) {
         if (productName.includes("follicare")) return "hover:bg-green-500"
         if (productName.includes("calcar")) return "hover:bg-red-500"
         if (productName.includes("caldense")) return "hover:bg-blue-500"
+        if (productName.includes("vitam-x")) return "hover:bg-black"
         return "hover:bg-blue-500"
     }
 
     // Extract tablet count from product name or description
     const getTabletCount = () => {
+        if (name.toLowerCase().includes("vitam-x")) {
+            return "30 Tablets"
+        }
         const match = name.match(/(\d+)\s*tablets?/i) || description?.match(/(\d+)\s*tablets?/i)
         return match ? `${match[1]} TABLETS` : "30 TABLETS"
     }
@@ -35,7 +39,7 @@ export default function ProductCard({ product }: { product: Product }) {
     }
 
     return (
-        <div className="relative group w-full max-w-[300px] pt-[125px]">
+        <div className="relative group w-full max-w-[300px] pt-[125px] h-[400px]">
             {/* Cart Button - Positioned half outside the card */}
             <button
                 onClick={() => addToCart(product, 1)}
@@ -45,7 +49,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 <ShoppingCart className="h-5 w-5 text-blue-900" />
             </button>
 
-            <Card className={`${getBackgroundColor()} transition-all duration-300 rounded-tr-[80px] h-full relative`}>
+            <Card className={`${getBackgroundColor()} transition-all duration-300 rounded-tr-[80px] h-[275px] relative`}>
                 <Link href={`/products/${product.$id}`}>
                     {/* Product Image - Positioned to overflow from top and aligned to left */}
                     <div className="absolute -top-[125px] left-6 flex">
@@ -60,22 +64,24 @@ export default function ProductCard({ product }: { product: Product }) {
                 </Link>
 
                 {/* Product Details - Add padding top to make space for the image */}
-                <div className="p-4 pt-[125px]">
-                    {/* Rating Stars */}
-                    <div className="flex gap-0.5 mb-3">
-                        {[...Array(5)].map((_, i) => (
-                            <Star
-                                key={i}
-                                size={18}
-                                className="fill-orange-400 text-orange-400 group-hover:text-white group-hover:fill-transparent"
-                            />
-                        ))}
-                    </div>
+                <div className="p-4 pt-[125px] h-full flex flex-col justify-between">
+                    <div>
+                        {/* Rating Stars */}
+                        <div className="flex gap-0.5 mb-3">
+                            {[...Array(5)].map((_, i) => (
+                                <Star
+                                    key={i}
+                                    size={18}
+                                    className="fill-orange-400 text-orange-400 group-hover:text-white group-hover:fill-transparent"
+                                />
+                            ))}
+                        </div>
 
-                    {/* Product Name and Tablet Count */}
-                    <h3 className="font-bold text-xl group-hover:text-white text-gray-900 mb-1">
-                        {getFormattedName()} <span className="group-hover:text-white text-gray-900">({getTabletCount()})</span>
-                    </h3>
+                        {/* Product Name and Tablet Count */}
+                        <h3 className="font-bold text-xl group-hover:text-white text-gray-900 mb-1 min-h-[3rem] flex items-center">
+                            {getFormattedName()} <span className="group-hover:text-white text-gray-900">({getTabletCount()})</span>
+                        </h3>
+                    </div>
 
                     {/* Price */}
                     <p className="text-2xl font-bold text-blue-900 group-hover:text-white">
